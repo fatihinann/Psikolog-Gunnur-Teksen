@@ -1,0 +1,22 @@
+metadata:
+  favicon: ''
+  title: New module
+  description: ''
+  breakpoints: []
+  rendererCachingEnabled: true
+  skipDepsComparisonInCompilerCache: false
+  vibeAppPhase: impl
+  vibeAppConnectedDatasources:
+    - '[Sample] Custom App_05uDfJ9ZOD'
+    - '[Sample] Postgres'
+  vibeAppAutoApplyMigrations: true
+  chatId: '69882'
+appSettings:
+  properties:
+    defaultData: '{}'
+  actions: {}
+  gridVersion: 2
+  density: compact
+  hideRenderCachingSettings: false
+internalType: vibe_project
+id: 0TDWUQjdQ5
