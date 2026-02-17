@@ -98,5 +98,16 @@ class Logger {
   // }
 }
 
-export const logger = new Logger();
+// Lazy initialization to avoid circular dependency issues
+let loggerInstance: Logger | null = null;
+
+export function getLogger(): Logger {
+  if (!loggerInstance) {
+    loggerInstance = new Logger();
+  }
+  return loggerInstance;
+}
+
+// Export a default instance for convenience
+export const logger = getLogger();
 

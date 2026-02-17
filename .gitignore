@@ -1,7 +1,5 @@
 # Dependencies
 node_modules
-.pnp
-.pnp.js
 
 # Environment variables - KESINLIKLE commit edilmemeli
 .env
@@ -10,7 +8,7 @@ node_modules
 .env.test.local
 .env.production.local
 .env*.local
-.env.*
+.env.* 
 
 # Keep .env.example in git
 !.env.example
