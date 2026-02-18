@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
+import { Redis } from '@upstash/redis';
 import { logger } from '@/lib/logger';
 import { setAuthSession } from '@/lib/auth';
 
 // Redis bağlantısını singleton olarak yönet
-let redis: any = null;
-let redisInitPromise: Promise<void> | null = null;
+let redis: Redis | null = null;
 
-const initRedis = async () => {
+const initRedis = () => {
   if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
     logger.debug('Redis environment variables not found, using memory store only');
     return;
@@ -16,22 +16,19 @@ const initRedis = async () => {
   if (redis) return; // Zaten bağlıysa tekrar bağlanma
 
   try {
-    const { Redis } = require('@upstash/redis');
     redis = new Redis({
       url: process.env.UPSTASH_REDIS_REST_URL,
       token: process.env.UPSTASH_REDIS_REST_TOKEN,
     });
     logger.info('Redis initialized successfully');
   } catch (error) {
-    logger.warn('Redis initialization failed, using memory store only', {
-      error: error instanceof Error ? error.message : String(error)
-    });
+    logger.error('Redis initialization failed', error instanceof Error ? error : new Error(String(error)));
     redis = null;
   }
 };
 
-// İlk initialization'ı başlat
-redisInitPromise = initRedis();
+// Initialization'ı hemen yap (ESM'de require gerekmez)
+initRedis();
 
 // Rate limiting konfigürasyonu (TEST MOD)
 const RATE_LIMIT_CONFIG = {
@@ -241,31 +238,30 @@ const getPasswordHash = () => {
   const envHash = process.env.ADMIN_PASSWORD_HASH;
 
   if (!envHash) {
-    throw new Error('ADMIN_PASSWORD_HASH environment variable is missing');
+    logger.error('ADMIN_PASSWORD_HASH environment variable is missing');
+    throw new Error('ADMIN_PASSWORD_HASH configuration missing');
   }
 
-  // Base64 encoded bcrypt hash (80 karakter)
-  if (envHash.length === 80) {
+  // Handle environment variables that might be wrapped in quotes by some systems
+  const cleanHash = envHash.trim().replace(/^["']|["']$/g, '');
+
+  // Base64 encoded bcrypt hash (usually 80 characters when encoded)
+  if (cleanHash.length >= 60) {
     try {
-      const decoded = Buffer.from(envHash, 'base64').toString('utf-8');
-      if (decoded.length === 60 && decoded.startsWith('$2b$')) {
-        logger.debug('Using base64 decoded hash');
-        return decoded;
+      // Try to decode if it looks like base64 (starts with $, not likely, or just check length)
+      if (!cleanHash.startsWith('$2b$')) {
+        const decoded = Buffer.from(cleanHash, 'base64').toString('utf-8');
+        if (decoded.startsWith('$2b$')) {
+          logger.debug('Using base64 decoded hash');
+          return decoded;
+        }
       }
     } catch (error) {
-      logger.warn('Hash decode error', {
-        error: error instanceof Error ? error.message : String(error)
-      });
+      logger.warn('Hash decode error, using raw value', { hashLength: cleanHash.length });
     }
   }
 
-  // Direct bcrypt hash (60 karakter)
-  if (envHash.length === 60 && envHash.startsWith('$2b$')) {
-    logger.debug('Using direct bcrypt hash');
-    return envHash;
-  }
-
-  return envHash;
+  return cleanHash;
 };
 
 const ADMIN_CREDENTIALS = {
@@ -365,10 +361,13 @@ export async function POST(request: NextRequest) {
       );
     }
   } catch (error) {
-    logger.error('Login error', error instanceof Error ? error : new Error(String(error)));
+    logger.error('Unexpected login error', error instanceof Error ? error : new Error(String(error)));
 
     return NextResponse.json(
-      { message: 'Sunucu hatası oluştu.' },
+      {
+        message: 'Sunucu hatası oluştu.',
+        detail: process.env.NODE_ENV === 'development' ? String(error) : undefined
+      },
       { status: 500 }
     );
   }
