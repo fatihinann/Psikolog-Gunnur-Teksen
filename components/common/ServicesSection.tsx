@@ -30,7 +30,7 @@ export function ServicesSection() {
   }, []);
 
   // Filter services by current language and active status
-  const filteredServices = services.filter(service => 
+  const filteredServices = services.filter(service =>
     service.language === language && service.isActive
   );
 
@@ -73,57 +73,54 @@ export function ServicesSection() {
   }
 
   return (
-    <section className="py-20 psychology-gradient">
-      <div className="container mx-auto px-4">
+    <section className="py-32 minimalist-gradient relative overflow-hidden">
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={"visible"}
         >
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <motion.div variants={itemVariants} className="text-center mb-24 max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-stone-900 mb-6">
               {t('home.services.title')}
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <div className="w-20 h-1.5 bg-accent-terracotta mx-auto mb-8 rounded-full opacity-80" />
+            <p className="text-xl text-stone-600 leading-relaxed font-medium">
               {t('services.subtitle')}
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
             {filteredServices.map((service, index) => {
               const IconComponent = getServiceIcon(index);
-              const colorClass = getServiceColor(index);
-              
+
               return (
                 <motion.div key={service.id} variants={itemVariants}>
-                  <Card className="psychology-card h-full group hover:scale-105 transition-all duration-300">
-                    <CardContent className="p-8">
-                      <div className="flex items-start space-x-4">
-                        <div className="flex-shrink-0">
-                          <IconComponent className={`w-12 h-12 ${colorClass}`} />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                            {service.name}
-                          </h3>
-                          <p className="text-gray-600 leading-relaxed">
-                            {service.description}
-                          </p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <div className="minimalist-card p-10 h-full flex flex-col items-center text-center group hover:-translate-y-2">
+                    <div className="w-20 h-20 bg-primary-green/5 rounded-3xl flex items-center justify-center mb-8 group-hover:bg-primary-green/10 transition-colors duration-500">
+                      <IconComponent className="w-10 h-10 text-primary-green" />
+                    </div>
+                    <h3 className="text-2xl font-display font-bold text-stone-900 mb-4 tracking-tight">
+                      {service.name}
+                    </h3>
+                    <p className="text-stone-600 leading-relaxed text-sm mb-auto">
+                      {service.description}
+                    </p>
+                  </div>
                 </motion.div>
               );
             })}
-            
           </div>
 
           <motion.div variants={itemVariants} className="text-center">
-            <Button size="lg" variant="outline" asChild>
+            <Button
+              size="lg"
+              className="bg-primary-green hover:bg-primary-green/90 text-white px-10 py-7 text-lg rounded-2xl shadow-xl shadow-primary-green/20 transition-all duration-300 hover:scale-105"
+              asChild
+            >
               <Link href="/services">
                 {t('services.btn')}
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-5 h-5 ml-3" />
               </Link>
             </Button>
           </motion.div>

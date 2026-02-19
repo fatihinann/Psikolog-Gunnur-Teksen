@@ -9,16 +9,17 @@ export default {
     extend: {
       colors: {
         primary: {
-          blue: 'rgb(59 130 246)',
-          lavender: 'rgb(139 92 246)',
+          green: '#2D4F1E',
+          leaf: '#7A9D54',
         },
         accent: {
-          beige: 'rgb(245 245 220)',
-          sage: 'rgb(147 197 114)',
+          terracotta: '#D35400',
+          bone: '#FDFCFB',
         },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Sora', 'system-ui', 'sans-serif'],
       },
     },
   },

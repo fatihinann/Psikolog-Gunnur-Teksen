@@ -79,68 +79,73 @@ export function BlogSection() {
   }
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-32 bg-accent-bone/30">
       <div className="container mx-auto px-4">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={"visible"}
         >
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <motion.div variants={itemVariants} className="text-center mb-20 max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-stone-900 mb-6">
               {t('home.blog.title')}
             </h2>
-            <p className="text-xl text-gray-600">
+            <div className="w-20 h-1.5 bg-accent-terracotta mx-auto mb-8 rounded-full opacity-80" />
+            <p className="text-xl text-stone-600 font-medium">
               {t('blog.subtitle')}
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
             {featuredPosts.map((post, index) => (
               <motion.div key={post.id} variants={itemVariants}>
-                <Card className="psychology-card h-full group hover:scale-105 transition-all duration-300">
-                  <CardContent className="p-6">
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <Badge variant="outline" className="text-blue-600 border-blue-200">
-                          {post.language === 'tr' ? '🇹🇷' : '🇺🇸'}
-                        </Badge>
-                        <div className="flex items-center text-sm text-gray-500">
-                          <Calendar className="w-4 h-4 mr-1" />
-                          {toDate(post.createdAt).toLocaleDateString(
-                            language === 'tr' ? 'tr-TR' : 'en-US'
-                          )}
-                        </div>
+                <div className="minimalist-card p-8 h-full flex flex-col group">
+                  <div className="space-y-6 flex-1">
+                    <div className="flex items-center justify-between">
+                      <div className="px-3 py-1 bg-primary-green/5 text-primary-green text-xs font-bold rounded-full border border-primary-green/10 uppercase tracking-widest">
+                        {post.language === 'tr' ? 'Türkçe' : 'English'}
                       </div>
-
-                      <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">
-                        {post.title}
-                      </h3>
-
-                      {post.excerpt && (
-                        <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
-                          {post.excerpt}
-                        </p>
-                      )}
-
-                      <Button variant="ghost" size="sm" className="p-0 h-auto text-blue-600 hover:text-blue-700" asChild>
-                        <Link href={`/blog/${post.id}`}>
-                          {t('home.blog.readMore')}
-                          <ArrowRight className="w-4 h-4 ml-1" />
-                        </Link>
-                      </Button>
+                      <div className="flex items-center text-xs font-semibold text-stone-400 uppercase tracking-wider">
+                        <Calendar className="w-4 h-4 mr-2 text-accent-terracotta/60" />
+                        {toDate(post.createdAt).toLocaleDateString(
+                          language === 'tr' ? 'tr-TR' : 'en-US'
+                        )}
+                      </div>
                     </div>
-                  </CardContent>
-                </Card>
+
+                    <h3 className="text-2xl font-display font-bold text-stone-900 group-hover:text-primary-green transition-colors duration-300 line-clamp-2 leading-tight">
+                      {post.title}
+                    </h3>
+
+                    {post.excerpt && (
+                      <p className="text-stone-600 text-sm leading-relaxed line-clamp-3 font-medium">
+                        {post.excerpt}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-stone-100 flex items-center justify-between">
+                    <Button variant="ghost" size="sm" className="p-0 h-auto text-primary-green font-bold hover:bg-transparent hover:text-primary-leaf flex items-center group/btn" asChild>
+                      <Link href={`/blog/${post.id}`}>
+                        {t('home.blog.readMore')}
+                        <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
 
           <motion.div variants={itemVariants} className="text-center">
-            <Button size="lg" variant="outline" asChild>
+            <Button
+              size="lg"
+              className="bg-primary-green hover:bg-primary-green/90 text-white px-10 py-7 text-lg rounded-2xl shadow-xl shadow-primary-green/20 transition-all duration-300 hover:scale-105"
+              asChild
+            >
               <Link href="/blog">
                 {t('blog.btn')}
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-5 h-5 ml-3" />
               </Link>
             </Button>
           </motion.div>

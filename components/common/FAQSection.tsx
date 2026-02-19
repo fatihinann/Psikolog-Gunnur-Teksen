@@ -44,7 +44,7 @@ export function FAQSection() {
         staggerChildren: 0.1,
         delayChildren: 0.3
       }
-    } 
+    }
   };
 
   const itemVariants = {
@@ -68,72 +68,77 @@ export function FAQSection() {
   }
 
   return (
-    <section className="py-20 psychology-gradient">
-      <div className="container mx-auto px-4">
+    <section className="py-32 minimalist-gradient relative overflow-hidden">
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={"visible"}
           className="max-w-4xl mx-auto"
         >
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <motion.div variants={itemVariants} className="text-center mb-20 max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-stone-900 mb-6">
               {t('home.faq.title')}
             </h2>
-            <p className="text-xl text-gray-600">
+            <div className="w-20 h-1.5 bg-accent-terracotta mx-auto mb-8 rounded-full opacity-80" />
+            <p className="text-xl text-stone-600 font-medium">
               {t('faq.subtitle')}
             </p>
           </motion.div>
 
-          <div className="space-y-4 mb-12">
-            {featuredFaqs.map((faq, index) => (
-              <motion.div key={faq.id} variants={itemVariants}>
-                <Card className="psychology-card overflow-hidden">
-                  <button
-                    className="w-full text-left"
-                    onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                  >
-                    <CardContent className="p-6">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold text-gray-900 pr-4">
-                          {faq.question}
-                        </h3>
-                        <div className="flex-shrink-0">
-                          {openIndex === index ? (
-                            <ChevronUp className="w-5 h-5 text-blue-600" />
-                          ) : (
-                            <ChevronDown className="w-5 h-5 text-gray-400" />
-                          )}
+          <div className="space-y-6 mb-16">
+            {featuredFaqs.map((faq, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <motion.div key={faq.id} variants={itemVariants}>
+                  <div className={`minimalist-card overflow-hidden transition-all duration-500 ${isOpen ? 'border-primary-green/20' : ''}`}>
+                    <button
+                      className="w-full text-left focus:outline-none"
+                      onClick={() => setOpenIndex(isOpen ? null : index)}
+                    >
+                      <div className="p-8">
+                        <div className="flex items-center justify-between">
+                          <h3 className={`text-xl font-display font-bold transition-colors duration-300 ${isOpen ? 'text-primary-green' : 'text-stone-800'}`}>
+                            {faq.question}
+                          </h3>
+                          <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 ${isOpen ? 'bg-primary-green text-white rotate-180' : 'bg-stone-100 text-stone-400'}`}>
+                            <ChevronDown className="w-5 h-5" />
+                          </div>
                         </div>
-                      </div>
 
-                      <motion.div
-                        initial={false}
-                        animate={{
-                          height: openIndex === index ? 'auto' : 0,
-                          opacity: openIndex === index ? 1 : 0
-                        }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="overflow-hidden"
-                      >
-                        <div className="pt-4 border-t border-gray-100 mt-4">
-                          <p className="text-gray-600 leading-relaxed whitespace-pre-wrap">
-                            {faq.answer}
-                          </p>
-                        </div>
-                      </motion.div>
-                    </CardContent>
-                  </button>
-                </Card>
-              </motion.div>
-            ))}
+                        <motion.div
+                          initial={false}
+                          animate={{
+                            height: isOpen ? 'auto' : 0,
+                            opacity: isOpen ? 1 : 0,
+                            marginTop: isOpen ? 24 : 0
+                          }}
+                          transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pt-6 border-t border-stone-100">
+                            <p className="text-stone-600 leading-relaxed font-medium whitespace-pre-wrap">
+                              {faq.answer}
+                            </p>
+                          </div>
+                        </motion.div>
+                      </div>
+                    </button>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
           <motion.div variants={itemVariants} className="text-center">
-            <Button size="lg" variant="outline" asChild>
+            <Button
+              size="lg"
+              className="bg-primary-green hover:bg-primary-green/90 text-white px-10 py-7 text-lg rounded-2xl shadow-xl shadow-primary-green/20 transition-all duration-300 hover:scale-105"
+              asChild
+            >
               <Link href="/sss">
                 {t('faq.btn')}
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-5 h-5 ml-3" />
               </Link>
             </Button>
           </motion.div>

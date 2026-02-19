@@ -81,7 +81,7 @@ const translations: Translations = {
     'about.approach.desc.2': 'Özellikle Şema Terapi yaklaşımını temel alarak, uzun süreli örüntülerin anlaşılması ve değişimi konusunda uzmanlaşmış durumdayım. Bu yaklaşım, kişilik bozuklukları ve kronik psikolojik sorunlar için özellikle etkili sonuçlar vermektedir.',
     'about.cta.title': 'Benimle çalışmaya başlamak ister misiniz?',
     'about.cta.desc': 'İlk adımı atmak bazen zor olabilir, ancak bu yolculukta yanınızda olacağım.',
-    
+
     // Education
     'education.title': 'Eğitim',
     'education.1.name': 'T.C. İstanbul Rumeli Üniversitesi',
@@ -98,13 +98,13 @@ const translations: Translations = {
     'experience.1.company': 'Bİ\'ŞEY SEANS PSİKOLOJİK DANIŞMANLIK MERKEZİ',
     'experience.1.project': 'Öğrenci Seans Destek Projesi',
     'experience.1.location': 'İstanbul, Türkiye',
-    'experience.1.date': '11/2023- günümüz',
+    'experience.1.date': '11/2023 - 2026',
     'experience.1.position': 'Klinik Psikolog',
     'experience.1.description': '17-24 yaş arası lise ve lisans öğrencilerine erişilebilir terapi hizmeti.',
 
     'experience.2.company': 'ÖZEL MOODİST HASTANESİ',
     'experience.2.location': 'İstanbul, Türkiye',
-    'experience.2.date': '05/2023- 06/2023',
+    'experience.2.date': '05/2023 - 06/2023',
     'experience.2.position': 'Stajyer Klinik Psikolog',
     'experience.2.description.1': 'Çeşitli servis katlarında gözlem yapıldı.',
     'experience.2.description.2': 'Grup terapi toplantılarına katılım gösterildi.',
@@ -206,7 +206,7 @@ const translations: Translations = {
     'faq.btn': 'Tüm SSS',
     'faq.cta.title': `Aradığınız cevabı bulamadınız mı?`,
     'faq.cta.subtitle': `Sorularınızı benimle doğrudan iletişime geçerek sorabilirsiniz.`,
-    
+
     // Footer
     'footer.desc': 'Yetişkinler için şefkatli, samimi ve güven verici bir yaklaşımla psikolojik destek.',
     'footer.links': 'Hızlı Linkler',
@@ -225,11 +225,12 @@ const translations: Translations = {
 
     // Home Page
     'home.hero.title': 'Hello, I am Clinical Psychologist Günnur Tekşen',
+    'home.hero.desc': 'Clinical Psychologist',
     'home.hero.subtitle.p1': 'After graduating from the Department of Psychology at Özyeğin University, I completed my master degree in Clinical Psychology with a thesis at the Institute of Clinical Psychology at Rumeli University, Republic of Turkey.',
     'home.hero.subtitle.p2': 'Throughout my education and professional work, I have worked primarily with university students. While my work is primarily based on the Schema Therapy school, I also continue my training in psychodynamic therapy.',
     'home.hero.subtitle.p3': 'I am currently freelance and accept clients through referrals from my network.',
     'home.hero.subtitle.p4': 'In my work with my clients, I aim to enhance their personal development, psychological balance, and quality of life by providing a safe and non-judgmental therapy environment.',
-    'home.hero.contact': 'Benimle ilgili daha fazla bilgi almak veya randevu oluşturmak için iletişim bölümünden bana ulaşabilirsiniz.',
+    'home.hero.contact': 'You can contact me from the contact section to get more information about me or to make an appointment.',
     'home.hero.cta': 'Book Appointment',
     'home.hero.call': 'Call Now',
     'home.about.title': 'About Me',
@@ -303,7 +304,7 @@ const translations: Translations = {
     'experience.1.company': 'BI\'ŞEY SEANS PSYCHOLOGICAL COUNSELING CENTER',
     'experience.1.project': 'Student Session Support Project',
     'experience.1.location': 'Istanbul, Turkey',
-    'experience.1.date': '11/2023- present',
+    'experience.1.date': '11/2023- 2026',
     'experience.1.position': 'Clinical Psychologist',
     'experience.1.description': 'Providing accessible therapy services to high school and university students aged 17-24.',
 
@@ -409,11 +410,11 @@ const translations: Translations = {
     'blog.btn': 'All Blog Posts',
     // FAQ
     'faq.title': 'Frequently Asked Questions',
-    'faq.subtitle': 'Most frequently asked questions and answers', 
+    'faq.subtitle': 'Most frequently asked questions and answers',
     'faq.btn': 'All FAQs',
     'faq.cta.title': `Didn't find the answer you were looking for?`,
     'faq.cta.subtitle': `Benimle doğrudan iletişime geçerek sorularınızı sorabilirsiniz.`,
-    
+
     'footer.desc': 'Psychological support for adults with a caring, friendly and reassuring approach.',
     'footer.links': 'Quick Links',
     'footer.rights': 'All rights reserved.',

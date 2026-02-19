@@ -11,111 +11,102 @@ export function HeroSection() {
   const { t } = useTranslation();
 
   return (
-    <section className="pt-20 psychology-gradient min-h-screen flex items-center">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4 items-center">
+    <section className="pt-32 pb-20 minimalist-gradient min-h-screen flex items-center overflow-hidden">
+      <div className="container mx-auto px-4 relative">
+        {/* Abstract Background Element */}
+        <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 bg-primary-leaf/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-72 h-72 bg-accent-terracotta/5 rounded-full blur-3xl" />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
           {/* Text Content */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-6"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="lg:col-span-7 space-y-8"
           >
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight"
-            >
-              {t('home.hero.title')}
-            </motion.h1>
+            <div className="space-y-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="inline-block px-4 py-1.5 bg-primary-green/5 border border-primary-green/10 rounded-full"
+              >
+                <span className="text-xs font-bold tracking-widest uppercase text-primary-green/80">
+                  {t('home.hero.desc')}
+                </span>
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-stone-900 leading-[1.1]"
+              >
+                {t('home.hero.title')}
+              </motion.h1>
+            </div>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-sm md:text-lg text-gray-700 leading-relaxed"
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="text-lg md:text-xl text-stone-600 leading-relaxed max-w-2xl"
             >
-              {t('home.hero.subtitle.p1')}<br />
-              {t('home.hero.subtitle.p2')}<br />
-              {t('home.hero.subtitle.p3')}<br />
-              {t('home.hero.subtitle.p4')}
+              {t('home.hero.subtitle.p1')} {t('home.hero.subtitle.p2')} {t('home.hero.subtitle.p3')}
             </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="flex flex-col sm:flex-row gap-5"
+            >
+              <Button
+                size="lg"
+                className="bg-accent-terracotta hover:bg-accent-terracotta/90 text-white px-10 py-7 text-lg rounded-2xl shadow-xl shadow-accent-terracotta/20 transition-all duration-300 hover:scale-105"
+                asChild
+              >
+                <Link href="/contact">
+                  <Calendar className="w-5 h-5 mr-3" />
+                  {t('common.appointment')}
+                </Link>
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="lg"
+                className="px-10 py-7 text-lg text-primary-green hover:bg-stone-200/50 rounded-2xl transition-all duration-300"
+                asChild
+              >
+                <a href="tel:+905356516747">
+                  <Phone className="w-5 h-5 mr-3" />
+                  {t('common.call')}
+                </a>
+              </Button>
+            </motion.div>
           </motion.div>
+
           {/* Image */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="lg:col-span-5 relative lg:block"
           >
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl psychology-card">
-              <div className="aspect-0 md:aspect-[3/2] bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-                <div className="text-center text-gray-600">
-                  <div className="">
-                    <Image src={gunnurteksen} alt="Psk. Günnur Tekşen" className='mx-auto mb-4 w-80 rounded-3xl' />
-                  </div>
-                  <p className="text-lg font-semibold">Günnur Tekşen</p>
-                  <p className="text-sm">{t('home.hero.desc')}</p>
-                </div>
-              </div>
-
+            <div className="relative z-10 w-full aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white/50">
+              <Image
+                src={gunnurteksen}
+                alt="Psk. Günnur Tekşen"
+                fill
+                className="object-cover hover:scale-105 transition-transform duration-700"
+                priority
+              />
             </div>
-          </motion.div>
-          {/* Specialties */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4"
-          >
-            <Button
-              size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg"
-              asChild
-            >
-              <Link href="/contact">
-                <Calendar className="w-5 h-5 mr-2" />
-                {t('common.appointment')}
-              </Link>
-            </Button>
 
-            <Button
-              variant="outline"
-              size="lg"
-              className="px-8 py-3 text-lg border-blue-200 text-blue-700 hover:bg-blue-50"
-              asChild
-            >
-              <a href="tel:+905356516747">
-                <Phone className="w-5 h-5 mr-2" />
-                {t('common.call')}
-              </a>
-            </Button>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="pt-6"
-          >
-            <p className="text-sm text-gray-600 mb-3">{t('common.expertise')}:</p>
-            <div className="flex flex-wrap gap-2">
-              {[
-                t('common.expertise-1'),
-                t('common.expertise-2'),
-                t('common.expertise-3'),
-                t('common.expertise-4'),
-                t('common.expertise-5'),
-                t('common.expertise-6'),
-              ].map((specialty, index) => (
-                <span
-                  key={specialty}
-                  className="px-3 py-1 bg-white/60 backdrop-blur-sm text-blue-700 text-sm rounded-full border border-blue-200"
-                >
-                  {specialty}
-                </span>
-              ))}
-            </div>
+            {/* Decorative Elements */}
+            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-accent-terracotta rounded-3xl -z-0 opacity-20 blur-xl" />
+            <div className="absolute top-1/2 -left-12 -translate-y-1/2 w-24 h-48 bg-primary-leaf/20 rounded-full blur-2xl" />
           </motion.div>
         </div>
       </div>

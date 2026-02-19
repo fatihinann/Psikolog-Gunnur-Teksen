@@ -3,8 +3,10 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
 import { GraduationCap, Award, Heart, Users, Calendar } from 'lucide-react';
+import Link from 'next/link';
 
 export function AboutSection() {
   const { t } = useTranslation();
@@ -28,212 +30,120 @@ export function AboutSection() {
   };
 
   return (
-    <section ref={ref} className="py-20 bg-white">
+    <section ref={ref} className="py-32 bg-accent-bone/50 relative overflow-hidden">
       <div className="container mx-auto px-4">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="max-w-8xl mx-auto"
+          className="max-w-7xl mx-auto"
         >
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <motion.div variants={itemVariants} className="text-center mb-24 max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-stone-900 mb-6">
               {t('about.title')}
             </h2>
-            <p className="text-xl text-gray-600 leading-relaxed">
-              {t('about.desc')}
+            <div className="w-20 h-1.5 bg-accent-terracotta mx-auto mb-8 rounded-full opacity-80" />
+            <p className="text-xl text-stone-600 leading-relaxed font-medium italic">
+              "{t('about.desc')}"
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className='space-y-4'>
-
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className='space-y-10'>
               {/* Eğitim */}
               <motion.div variants={itemVariants}>
-                <Card className="psychology-card">
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
-                      <div className="flex-shrink-0">
-                        <GraduationCap className="w-10 h-10 text-blue-600" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('about.education')}</h3>
-                        <ul className="text-gray-600 space-y-2">
-                          <li>
-                            <b>{t('education.1.name')}</b>
-                            <p>{t('education.1.program')}</p>
-                            <p>{t('education.1.date')} - {t('education.1.location')}</p>
-                          </li>
-                          <li>
-                            <b>{t('education.2.name')}</b>
-                            <p>{t('education.2.program')}</p>
-                            <p>{t('education.2.date')} - {t('education.2.location')}</p>
-                          </li>
-                        </ul>
+                <div className="minimalist-card p-8">
+                  <div className="flex items-start space-x-6">
+                    <div className="flex-shrink-0 p-3 bg-primary-green/5 rounded-2xl">
+                      <GraduationCap className="w-8 h-8 text-primary-green" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-display font-semibold text-stone-900 mb-6">{t('about.education')}</h3>
+                      <div className="space-y-6">
+                        <div className="relative pl-6 border-l-2 border-primary-leaf/20">
+                          <p className='font-bold text-stone-900'>{t('education.1.name')}</p>
+                          <p className="text-primary-leaf font-medium">{t('education.1.program')}</p>
+                          <p className="text-sm text-stone-500 mt-1">{t('education.1.date')} — {t('education.1.location')}</p>
+                        </div>
+                        <div className="relative pl-6 border-l-2 border-primary-leaf/20">
+                          <p className='font-bold text-stone-900'>{t('education.2.name')}</p>
+                          <p className="text-primary-leaf font-medium">{t('education.2.program')}</p>
+                          <p className="text-sm text-stone-500 mt-1">{t('education.2.date')} — {t('education.2.location')}</p>
+                        </div>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </motion.div>
 
               {/* Deneyim */}
               <motion.div variants={itemVariants}>
-                <Card className="psychology-card h-full">
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
-                      <div className="flex-shrink-0">
-                        <Users className="w-10 h-10 text-green-600" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('about.experience')}</h3>
-                        <ul className="text-gray-600 space-y-2">
-                          <li>
-                            <b>{t('experience.1.company')}</b>
-                            <p>{t('experience.1.position')} ({t('experience.1.date')})</p>
-                            <p>{t('experience.1.description')}</p>
-                          </li>
-                          <li>
-                            <b>{t('experience.2.company')}</b>
-                            <p>{t('experience.2.position')} ({t('experience.2.date')})</p>
-                            <p>- {t('experience.2.description.1')}</p>
-                            <p>- {t('experience.2.description.2')}</p>
-                            <p>- {t('experience.2.description.3')}</p>
-                          </li>
-                          <li>
-                            <b>{t('experience.3.company')}</b>
-                            <p>{t('experience.3.position')} ({t('experience.3.date')})</p>
-                            <p>- {t('experience.3.description.1')}</p>
-                            <p>- {t('experience.3.description.2')}</p>
-                            <p>- {t('experience.3.description.3')}</p>
-                          </li>
-                          <li>
-                            <b>{t('experience.4.company')}</b>
-                            <p>{t('experience.4.position')} ({t('experience.4.date')})</p>
-                            <p>- {t('experience.4.description.1')}</p>
-                            <p>- {t('experience.4.description.2')}</p>
-                            <p>- {t('experience.4.description.3')}</p>
-                          </li>
-                        </ul>
+                <div className="minimalist-card p-8">
+                  <div className="flex items-start space-x-6">
+                    <div className="flex-shrink-0 p-3 bg-primary-leaf/5 rounded-2xl">
+                      <Users className="w-8 h-8 text-primary-leaf" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-display font-semibold text-stone-900 mb-6">{t('about.experience')}</h3>
+                      <div className="space-y-8">
+                        {[1, 2, 3, 4].map((i) => (
+                          <div key={i} className="relative pl-6 border-l-2 border-primary-green/20">
+                            <p className='font-bold text-stone-900'>{t(`experience.${i}.company`)}</p>
+                            <p className="text-primary-green text-sm font-semibold">{t(`experience.${i}.position`)} ({t(`experience.${i}.date`)})</p>
+                            <p className="text-sm text-stone-600 mt-2 leading-relaxed">{t(`experience.${i}.description`)}</p>
+                          </div>
+                        ))}
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </motion.div>
-
-              {/* Yaklaşım */}
-              <motion.div variants={itemVariants}>
-                <Card className="psychology-card h-full">
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
-                      <div className="flex-shrink-0">
-                        <Heart className="w-10 h-10 text-red-500" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('about.approach')}</h3>
-                        <p className="text-gray-600">
-                          {t('about.approach.desc')}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-
             </div>
 
-            <div className='space-y-4'>
-
+            <div className='space-y-10'>
               {/* Sertifikalar */}
               <motion.div variants={itemVariants}>
-                <Card className="psychology-card">
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
-                      <div className="flex-shrink-0">
-                        <Award className="w-10 h-10 text-purple-600" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('about.certificates')}</h3>
-                        <ul className="text-gray-600 space-y-2">
-                          <li>
-                            <p className='font-medium'>Dr. Görkem Gökçelioğlu</p>
-                            <p>{t('certification.1.name')} ({t('certification.1.date')})</p>
-                          </li>
-                          <li>{t('certification.2.name')} (2024)</li>
-                          <li>{t('certification.3.name')} (2024)</li>
-                          <li>
-                            <p className='font-medium'>{t('certification.4.issuer')}</p>
-                            <p>{t('certification.4.name')} (2023)</p>
-                          </li>
-                          <li>
-                            <p className='font-medium'>{t('certification.5.issuer')}</p>
-                            <p>{t('certification.5.name')} (2023)</p>
-                          </li>
-                          <li>{t('certification.6.name')} (2023)</li>
-                          <li>{t('certification.7.name')} (2022)</li>
-                          <li>
-                            <p className='font-medium'>{t('certification.8.issuer')}</p>
-                            <p>{t('certification.8.name')} (2021)</p>
-                          </li>
-                        </ul>
+                <div className="minimalist-card p-8">
+                  <div className="flex items-start space-x-6">
+                    <div className="flex-shrink-0 p-3 bg-accent-terracotta/5 rounded-2xl">
+                      <Award className="w-8 h-8 text-accent-terracotta" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-display font-semibold text-stone-900 mb-6">{t('about.certificates')}</h3>
+                      <div className="grid grid-cols-1 gap-4">
+                        {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                          <div key={i} className="flex items-center space-x-3 group">
+                            <div className="w-1.5 h-1.5 rounded-full bg-accent-terracotta/40 group-hover:scale-150 transition-transform" />
+                            <p className="text-sm text-stone-700">{t(`certification.${i}.name`)}</p>
+                          </div>
+                        ))}
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </motion.div>
-              {/* Seminerler */}
+
+              {/* Yaklaşım & Seminerler */}
               <motion.div variants={itemVariants}>
-                <Card className="psychology-card h-full">
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
-                      <div className="flex-shrink-0">
-                        <Calendar className="w-10 h-10 text-orange-500" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('seminars.title')}</h3>
-                        <ul className="text-gray-600 space-y-4">
-                          <li>
-                            <p className="font-medium">{t('seminar.1.name')}</p>
-                            <p className="text-sm">{t('seminar.1.date')} — {t('seminar.1.role')}</p>
-                          </li>
-                          <li>
-                            <p className="font-medium">{t('seminar.2.name')}</p>
-                            <p className="text-sm">{t('seminar.2.date')} — {t('seminar.2.type')}</p>
-                          </li>
-                          <li>
-                            <p className="font-medium">{t('seminar.3.name')}</p>
-                            <p className="text-sm">{t('seminar.3.date')} — {t('seminar.3.type')}</p>
-                          </li>
-                          <li>
-                            <p className="font-medium">{t('seminar.4.name')}</p>
-                            <p className="text-sm">{t('seminar.4.date')} — {t('seminar.4.type')}</p>
-                          </li>
-                          <li>
-                            <p className="font-medium">{t('seminar.5.name')}</p>
-                            <p className="text-sm">{t('seminar.5.organization')} — {t('seminar.5.date')} ({t('seminar.5.type')})</p>
-                          </li>
-                          <li>
-                            <p className="font-medium">{t('seminar.6.name')}</p>
-                            <p className="text-sm">{t('seminar.6.organization')} — {t('seminar.6.date')} ({t('seminar.6.duration')}, {t('seminar.6.type')})</p>
-                          </li>
-                          <li>
-                            <p className="font-medium">{t('seminar.7.name')}</p>
-                            <p className="text-sm">{t('seminar.7.organization')} — {t('seminar.7.date')} ({t('seminar.7.type')})</p>
-                          </li>
-                          <li>
-                            <p className="font-medium">{t('seminar.8.name')}</p>
-                            <p className="text-sm">{t('seminar.8.organization')} — {t('seminar.8.date')} ({t('seminar.8.type')})</p>
-                          </li>
-                        </ul>
-                      </div>
+                <div className="minimalist-card p-8 bg-primary-green text-white">
+                  <div className="flex items-start space-x-6">
+                    <div className="flex-shrink-0 p-3 bg-white/10 rounded-2xl">
+                      <Heart className="w-8 h-8 text-white" />
                     </div>
-                  </CardContent>
-                </Card>
+                    <div>
+                      <h3 className="text-2xl font-display font-semibold mb-4">{t('about.approach')}</h3>
+                      <p className="text-white/80 leading-relaxed mb-6 italic">
+                        {t('about.approach.desc.1')}
+                      </p>
+                      <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 rounded-xl" asChild>
+                        <Link href="/contact">{t('common.appointment')}</Link>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
-
             </div>
-
           </div>
-
         </motion.div>
       </div>
     </section>
