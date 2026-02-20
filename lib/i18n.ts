@@ -468,8 +468,35 @@ export function useTranslation() {
     return translations[language][key] || key;
   };
 
+  const tm = (key: string): string[] => {
+    const currentTranslations = isClient ? translations[language] : translations['tr'];
+    const results: string[] = [];
+
+    // Check for base key
+    if (currentTranslations[key]) {
+      results.push(currentTranslations[key]);
+    }
+
+    // Check for numbered keys starting from .1
+    let i = 1;
+    while (currentTranslations[`${key}.${i}`]) {
+      results.push(currentTranslations[`${key}.${i}`]);
+      i++;
+    }
+
+    // Check for paragraph numbered keys starting from .p1
+    let p = 1;
+    while (currentTranslations[`${key}.p${p}`]) {
+      results.push(currentTranslations[`${key}.p${p}`]);
+      p++;
+    }
+
+    return results.length > 0 ? results : [key];
+  };
+
   return {
     t,
+    tm,
     language,
     changeLanguage,
   };

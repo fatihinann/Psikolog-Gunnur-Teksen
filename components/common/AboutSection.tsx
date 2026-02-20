@@ -9,7 +9,7 @@ import { GraduationCap, Award, Heart, Users, Calendar } from 'lucide-react';
 import Link from 'next/link';
 
 export function AboutSection() {
-  const { t } = useTranslation();
+  const { t, tm } = useTranslation();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -90,7 +90,11 @@ export function AboutSection() {
                           <div key={i} className="relative pl-6 border-l-2 border-primary-green/20">
                             <p className='font-bold text-stone-900'>{t(`experience.${i}.company`)}</p>
                             <p className="text-primary-green text-sm font-semibold">{t(`experience.${i}.position`)} ({t(`experience.${i}.date`)})</p>
-                            <p className="text-sm text-stone-600 mt-2 leading-relaxed">{t(`experience.${i}.description`)}</p>
+                            <div className="text-sm text-stone-600 mt-2 leading-relaxed space-y-2">
+                              {tm(`experience.${i}.description`).map((desc, idx) => (
+                                <p key={idx}>{desc}</p>
+                              ))}
+                            </div>
                           </div>
                         ))}
                       </div>
@@ -127,15 +131,17 @@ export function AboutSection() {
               <motion.div variants={itemVariants}>
                 <div className="minimalist-card p-8 bg-primary-green text-white">
                   <div className="flex items-start space-x-6">
-                    <div className="flex-shrink-0 p-3 bg-white/10 rounded-2xl">
-                      <Heart className="w-8 h-8 text-white" />
+                    <div className="flex-shrink-0 p-3 bg-accent-terracotta/5 rounded-2xl">
+                      <Heart className="w-8 h-8 text-accent-terracotta" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-display font-semibold mb-4">{t('about.approach')}</h3>
-                      <p className="text-white/80 leading-relaxed mb-6 italic">
-                        {t('about.approach.desc.1')}
-                      </p>
-                      <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 rounded-xl" asChild>
+                      <h3 className="text-2xl font-display font-semibold text-stone-900 mb-4">{t('about.approach')}</h3>
+                      <div className="text-stone-700 leading-relaxed mb-6 italic space-y-4">
+                        {tm('about.approach.desc').map((desc, idx) => (
+                          <p className='text-sm' key={idx}>{desc}</p>
+                        ))}
+                      </div>
+                      <Button variant="outline" className="border-white/20 text-stone-900 hover:bg-white/10 rounded-xl" asChild>
                         <Link href="/contact">{t('common.appointment')}</Link>
                       </Button>
                     </div>

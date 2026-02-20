@@ -8,7 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import gunnurteksen from '@/assets/img/gunnurteksen.webp'
 export function HeroSection() {
-  const { t } = useTranslation();
+  const { t, tm } = useTranslation();
 
   return (
     <section className="pt-32 pb-20 minimalist-gradient min-h-screen flex items-center overflow-hidden">
@@ -53,7 +53,9 @@ export function HeroSection() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-lg md:text-xl text-stone-600 leading-relaxed max-w-2xl"
             >
-              {t('home.hero.subtitle.p1')} {t('home.hero.subtitle.p2')} {t('home.hero.subtitle.p3')}
+              {tm('home.hero.subtitle').map((p, idx) => (
+                <span key={idx} className="block mb-2 last:mb-0">{p}</span>
+              ))}
             </motion.p>
 
             <motion.div
