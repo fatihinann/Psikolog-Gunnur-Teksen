@@ -1,9 +1,25 @@
 import type { Metadata } from 'next';
-import { Inter, Sora } from 'next/font/google';
+import { Inter, Sora, Cormorant_Garamond } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const sora = Sora({ subsets: ['latin'], variable: '--font-sora' });
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const sora = Sora({
+  subsets: ['latin'],
+  variable: '--font-sora',
+  display: 'swap',
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  variable: '--font-cormorant',
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Uzm. Klinik Psikolog Günnur Tekşen',
@@ -17,14 +33,25 @@ export const metadata: Metadata = {
   },
 };
 
+import { ThemeProvider } from '@/components/theme-provider';
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="tr" suppressHydrationWarning className={`${inter.variable} ${sora.variable}`}>
-      <body className="antialiased font-sans bg-accent-bone text-foreground">{children}</body>
+    <html lang="tr" suppressHydrationWarning className={`${inter.variable} ${sora.variable} ${cormorant.variable}`}>
+      <body className="antialiased font-sans bg-accent-bone dark:bg-dark-base text-foreground transition-colors duration-300">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

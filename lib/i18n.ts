@@ -68,7 +68,7 @@ const translations: Translations = {
     'common.expertise-3': 'Kişilik Bozuklukları',
     'common.expertise-4': 'Anksiyete ve Stres',
     'common.expertise-5': 'Ağlama ve Öfke Nöbetleri',
-    'common.expertise-6': 'Somatisation',
+    'common.expertise-6': 'Somatizasyon',
     'common.address': 'İstasyon, Yarımburgaz Cad. No:31. Kat 11, Daire: 90 Küçükçekmece/İstanbul, 34303',
     // About
     'about.title': 'Hakkımda',

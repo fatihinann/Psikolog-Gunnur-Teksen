@@ -7,15 +7,16 @@ import { Phone, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import gunnurteksen from '@/assets/img/gunnurteksen.webp'
+
 export function HeroSection() {
   const { t, tm } = useTranslation();
 
   return (
     <section className="pt-32 pb-20 minimalist-gradient min-h-screen flex items-center overflow-hidden">
       <div className="container mx-auto px-4 relative">
-        {/* Abstract Background Element */}
-        <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 bg-primary-leaf/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-72 h-72 bg-accent-terracotta/5 rounded-full blur-3xl" />
+        {/* Ambient Background Blobs */}
+        <div className="absolute top-0 right-0 -mr-32 -mt-32 w-[500px] h-[500px] bg-primary-sage/10 dark:bg-dark-forest/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 -ml-32 -mb-32 w-80 h-80 bg-accent-terracotta/6 dark:bg-accent-terracotta/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
           {/* Text Content */}
@@ -30,9 +31,9 @@ export function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="inline-block px-4 py-1.5 bg-primary-green/5 border border-primary-green/10 rounded-full"
+                className="inline-block px-4 py-1.5 bg-primary-green/5 dark:bg-dark-forest/40 border border-primary-green/10 dark:border-primary-sage/20 rounded-full"
               >
-                <span className="text-xs font-bold tracking-widest uppercase text-primary-green/80">
+                <span className="text-xs font-bold tracking-widest uppercase text-primary-green dark:text-primary-sage/90">
                   {t('home.hero.desc')}
                 </span>
               </motion.div>
@@ -41,32 +42,32 @@ export function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-stone-900 leading-[1.1]"
+                className="text-5xl md:text-6xl lg:text-7xl font-serif font-light text-stone-900 dark:text-stone-100 leading-[1.05] tracking-tight"
               >
                 {t('home.hero.title')}
               </motion.h1>
             </div>
 
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-lg md:text-xl text-stone-600 leading-relaxed max-w-2xl"
+              className="text-lg md:text-xl text-stone-600 dark:text-stone-400 leading-relaxed max-w-2xl space-y-2"
             >
               {tm('home.hero.subtitle').map((p, idx) => (
-                <span key={idx} className="block mb-2 last:mb-0">{p}</span>
+                <p key={idx}>{p}</p>
               ))}
-            </motion.p>
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-5"
+              className="flex flex-col sm:flex-row gap-4"
             >
               <Button
                 size="lg"
-                className="bg-accent-terracotta hover:bg-accent-terracotta/90 text-white px-10 py-7 text-lg rounded-2xl shadow-xl shadow-accent-terracotta/20 transition-all duration-300 hover:scale-105"
+                className="bg-primary-green hover:bg-primary-green/90 dark:bg-dark-forest dark:hover:bg-dark-forest/80 text-white px-10 py-7 text-base rounded-2xl shadow-xl shadow-primary-green/20 dark:shadow-dark-forest/30 transition-all duration-300 hover:scale-[1.03] font-medium tracking-wide"
                 asChild
               >
                 <Link href="/contact">
@@ -78,7 +79,7 @@ export function HeroSection() {
               <Button
                 variant="ghost"
                 size="lg"
-                className="px-10 py-7 text-lg text-primary-green hover:bg-stone-200/50 rounded-2xl transition-all duration-300"
+                className="px-10 py-7 text-base text-primary-green dark:text-stone-300 hover:bg-accent-sand/60 dark:hover:bg-dark-surface/80 border border-primary-green/20 dark:border-dark-muted/50 rounded-2xl transition-all duration-300 font-medium"
                 asChild
               >
                 <a href="tel:+905356516747">
@@ -89,26 +90,29 @@ export function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Image */}
+          {/* Arch-shaped Image */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className="lg:col-span-5 relative lg:block"
+            initial={{ opacity: 0, scale: 0.92, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+            className="lg:col-span-5 relative"
           >
-            <div className="relative z-10 w-full aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white/50">
-              <Image
-                src={gunnurteksen}
-                alt="Psk. Günnur Tekşen"
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-700"
-                priority
-              />
-            </div>
+            {/* Soft blobs behind the image */}
+            <div className="absolute inset-0 -m-8 bg-primary-sage/10 dark:bg-dark-forest/20 rounded-full blur-3xl" />
+            <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-accent-terracotta/10 rounded-full blur-2xl" />
 
-            {/* Decorative Elements */}
-            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-accent-terracotta rounded-3xl -z-0 opacity-20 blur-xl" />
-            <div className="absolute top-1/2 -left-12 -translate-y-1/2 w-24 h-48 bg-primary-leaf/20 rounded-full blur-2xl" />
+            <div className="relative z-10 w-full max-w-sm mx-auto">
+              {/* Arch frame container */}
+              <div className="arch-frame w-full aspect-[3/4] shadow-2xl shadow-primary-green/15 dark:shadow-black/50 border-4 border-white/40 dark:border-dark-muted/30">
+                <Image
+                  src={gunnurteksen}
+                  alt="Psk. Günnur Tekşen"
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-700"
+                  priority
+                />
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>

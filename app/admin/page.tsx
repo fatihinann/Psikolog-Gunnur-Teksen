@@ -5,11 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Toaster } from '@/components/ui/toaster';
-import { FileText, MessageSquare, Phone, HelpCircle, Plus, LogOut } from 'lucide-react';
+import { FileText, MessageSquare, Phone, HelpCircle, LogOut, LayoutDashboard } from 'lucide-react';
 import { BlogPostsManager } from '@/components/BlogPostsMenager';
 import { ContactSubmissionsManager } from '@/components/ContactSubmissionsManager';
 import { ServicesManager } from '@/components/ServicesManager';
 import { FaqsManager } from '@/components/FaqsManager';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import loadBlogPostsAction from '@/actions/blog/loadBlogPosts';
@@ -17,7 +18,6 @@ import loadContactSubmissionsAction from '@/actions/contact/loadContactSubmissio
 import loadServicesAction from '@/actions/services/loadServices';
 import loadFaqsAction from '@/actions/faqs/loadFaqs';
 
-// Type definitions
 interface BlogPost {
   id: number;
   title: string;
@@ -86,178 +86,199 @@ export default function AdminPage() {
     loadData();
   }, []);
 
-  const refreshBlogPosts = () => {
-    loadBlogPostsAction().then(setBlogPosts);
-  };
-  const refreshContacts = () => {
-    loadContactSubmissionsAction().then(setContactSubmissions);
-  };
-  const refreshServices = () => {
-    loadServicesAction().then(setServices);
-  };
-  const refreshFaqs = () => {
-    loadFaqsAction().then(setFaqs);
-  };
+  const refreshBlogPosts = () => loadBlogPostsAction().then(setBlogPosts);
+  const refreshContacts = () => loadContactSubmissionsAction().then(setContactSubmissions);
+  const refreshServices = () => loadServicesAction().then(setServices);
+  const refreshFaqs = () => loadFaqsAction().then(setFaqs);
 
-  const publishedPosts = blogPosts.filter(post => post.status === 'published').length;
-  const draftPosts = blogPosts.filter(post => post.status === 'draft').length;
-  const newContacts = contactSubmissions.filter(contact => contact.status === 'new').length;
-  const activeServices = services.filter(service => service.isActive).length;
+  const publishedPosts = blogPosts.filter(p => p.status === 'published').length;
+  const draftPosts = blogPosts.filter(p => p.status === 'draft').length;
+  const newContacts = contactSubmissions.filter(c => c.status === 'new').length;
+  const activeServices = services.filter(s => s.isActive).length;
 
-  // Authentication loading state
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-dark-base flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Kimlik doğrulanıyor...</p>
+          <div className="w-10 h-10 border-2 border-primary-sage/30 border-t-primary-sage rounded-full animate-spin mx-auto mb-5" />
+          <p className="text-stone-500 text-sm font-light">Kimlik doğrulanıyor...</p>
         </div>
       </div>
     );
   }
 
-  // Not authenticated - redirect will happen in useAuth hook
-  if (!isAuthenticated) {
-    return null;
-  }
+  if (!isAuthenticated) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-stone-300 to-zinc-300 p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <div className="flex justify-between items-start mb-4">
-            <div></div>
+    <div className="min-h-screen bg-accent-bone dark:bg-dark-base transition-colors duration-300">
+      {/* Top Bar */}
+      <header className="bg-white/80 dark:bg-dark-surface/90 backdrop-blur-xl border-b border-stone-200/40 dark:border-dark-muted/30 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <div className="p-2 bg-primary-green/8 dark:bg-dark-forest/40 rounded-xl border border-primary-green/10 dark:border-primary-sage/20">
+              <LayoutDashboard className="h-5 w-5 text-primary-green dark:text-primary-sage" />
+            </div>
+            <div>
+              <div className="text-sm font-serif font-semibold text-stone-900 dark:text-stone-100 leading-none">
+                Günnur Tekşen
+              </div>
+              <div className="text-[10px] text-stone-400 dark:text-stone-500 uppercase tracking-[0.15em] mt-0.5 font-medium">
+                Yönetim Paneli
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3">
+            <span className="hidden sm:block text-xs text-stone-400 dark:text-stone-500 font-light">
+              Hoş geldiniz, <span className="text-stone-600 dark:text-stone-400 font-medium">{username}</span>
+            </span>
+            <ThemeToggle />
             <Button
               variant="outline"
+              size="sm"
               onClick={logout}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 border-stone-200 dark:border-dark-muted text-stone-500 dark:text-stone-400 hover:text-red-500 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-900 rounded-xl transition-all duration-300 text-xs"
             >
-              <LogOut className="h-4 w-4" />
-              Çıkış Yap
+              <LogOut className="h-3.5 w-3.5" />
+              Çıkış
             </Button>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">İçerik Yönetim Paneli</h1>
-          <p className="text-gray-600">Uzm. Klinik Psikolog Günnur Tekşen</p>
-          <p className="text-sm text-gray-500">Hoş geldiniz, {username}</p>
+        </div>
+      </header>
+
+      <main className="max-w-7xl mx-auto px-6 py-10 space-y-8">
+        {/* Page Title */}
+        <div>
+          <h1 className="text-3xl font-serif font-light text-stone-900 dark:text-stone-100 tracking-tight">
+            İçerik Yönetimi
+          </h1>
+          <p className="text-stone-400 dark:text-stone-500 text-sm font-light mt-1">
+            Site içeriklerini buradan yönetebilirsiniz.
+          </p>
         </div>
 
-        {/* Overview Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="border-blue-200 bg-blue-50/50">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-blue-700 flex items-center gap-2">
-                <FileText className="h-4 w-4" />
+        {/* Stat Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Blog */}
+          <div className="minimalist-card p-5">
+            <div className="flex items-start justify-between mb-4">
+              <div className="p-2.5 bg-primary-green/8 dark:bg-dark-forest/40 rounded-xl border border-primary-green/10 dark:border-primary-sage/20">
+                <FileText className="h-5 w-5 text-primary-green dark:text-primary-sage" />
+              </div>
+              <span className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100">
+                {loading ? '—' : blogPosts.length}
+              </span>
+            </div>
+            <p className="text-xs font-bold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">Blog Yazıları</p>
+            <div className="flex gap-1.5 flex-wrap">
+              <Badge className="bg-primary-green/10 text-primary-green dark:bg-dark-forest/50 dark:text-primary-sage border-none text-xs font-medium px-2 py-0.5">
+                {publishedPosts} Yayında
+              </Badge>
+              <Badge className="bg-stone-100 dark:bg-dark-muted/50 text-stone-500 dark:text-stone-400 border-none text-xs px-2 py-0.5">
+                {draftPosts} Taslak
+              </Badge>
+            </div>
+          </div>
+
+          {/* Services */}
+          <div className="minimalist-card p-5">
+            <div className="flex items-start justify-between mb-4">
+              <div className="p-2.5 bg-accent-terracotta/8 dark:bg-accent-terracotta/15 rounded-xl border border-accent-terracotta/12 dark:border-accent-terracotta/20">
+                <MessageSquare className="h-5 w-5 text-accent-terracotta" />
+              </div>
+              <span className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100">
+                {loading ? '—' : services.length}
+              </span>
+            </div>
+            <p className="text-xs font-bold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">Hizmetler</p>
+            <Badge className="bg-accent-terracotta/10 text-accent-terracotta border-none text-xs font-medium px-2 py-0.5">
+              {activeServices} Aktif
+            </Badge>
+          </div>
+
+          {/* FAQs */}
+          <div className="minimalist-card p-5">
+            <div className="flex items-start justify-between mb-4">
+              <div className="p-2.5 bg-primary-sage/10 dark:bg-primary-sage/10 rounded-xl border border-primary-sage/15 dark:border-primary-sage/20">
+                <HelpCircle className="h-5 w-5 text-primary-sage" />
+              </div>
+              <span className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100">
+                {loading ? '—' : faqs.length}
+              </span>
+            </div>
+            <p className="text-xs font-bold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">SSS</p>
+            <Badge className="bg-primary-sage/10 text-primary-sage border-none text-xs font-medium px-2 py-0.5">
+              Soru & Cevap
+            </Badge>
+          </div>
+
+          {/* Contact */}
+          <div className="minimalist-card p-5">
+            <div className="flex items-start justify-between mb-4">
+              <div className="p-2.5 bg-stone-100 dark:bg-dark-muted/50 rounded-xl border border-stone-200/60 dark:border-dark-muted/30">
+                <Phone className="h-5 w-5 text-stone-500 dark:text-stone-400" />
+              </div>
+              <span className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100">
+                {loading ? '—' : contactSubmissions.length}
+              </span>
+            </div>
+            <p className="text-xs font-bold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-2">İletişim</p>
+            {newContacts > 0 ? (
+              <Badge className="bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-900/40 text-xs font-medium px-2 py-0.5">
+                {newContacts} Yeni Mesaj
+              </Badge>
+            ) : (
+              <Badge className="bg-stone-100 dark:bg-dark-muted/50 text-stone-400 border-none text-xs px-2 py-0.5">
+                Yeni mesaj yok
+              </Badge>
+            )}
+          </div>
+        </div>
+
+        {/* Content Tabs */}
+        <div className="minimalist-card p-6">
+          <Tabs defaultValue="blog" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-stone-100/80 dark:bg-dark-muted/40 rounded-xl p-1 mb-6 border border-stone-200/30 dark:border-dark-muted/30">
+              <TabsTrigger
+                value="blog"
+                className="rounded-lg text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:text-primary-green dark:data-[state=active]:text-primary-sage data-[state=active]:shadow-sm transition-all duration-200"
+              >
                 Blog Yazıları
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="text-2xl font-bold text-blue-900">{blogPosts.length}</div>
-              <div className="flex gap-2 mt-2">
-                <Badge variant="default" className="bg-green-100 text-green-800">
-                  {publishedPosts} Yayında
-                </Badge>
-                <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
-                  {draftPosts} Taslak
-                </Badge>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-purple-200 bg-purple-50/50">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-purple-700 flex items-center gap-2">
-                <MessageSquare className="h-4 w-4" />
+              </TabsTrigger>
+              <TabsTrigger
+                value="services"
+                className="rounded-lg text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:text-accent-terracotta dark:data-[state=active]:text-accent-terracotta data-[state=active]:shadow-sm transition-all duration-200"
+              >
                 Hizmetler
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="text-2xl font-bold text-purple-900">{services.length}</div>
-              <div className="mt-2">
-                <Badge variant="default" className="bg-purple-100 text-purple-800">
-                  {activeServices} Aktif
-                </Badge>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-orange-200 bg-orange-50/50">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-orange-700 flex items-center gap-2">
-                <HelpCircle className="h-4 w-4" />
+              </TabsTrigger>
+              <TabsTrigger
+                value="faqs"
+                className="rounded-lg text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:text-primary-sage dark:data-[state=active]:text-primary-sage data-[state=active]:shadow-sm transition-all duration-200"
+              >
                 SSS
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="text-2xl font-bold text-orange-900">{faqs.length}</div>
-              <div className="mt-2">
-                <Badge variant="default" className="bg-orange-100 text-orange-800">
-                  Soru & Cevap
-                </Badge>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-green-200 bg-green-50/50">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-green-700 flex items-center gap-2">
-                <Phone className="h-4 w-4" />
+              </TabsTrigger>
+              <TabsTrigger
+                value="contacts"
+                className="rounded-lg text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:shadow-sm transition-all duration-200"
+              >
                 İletişim
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="text-2xl font-bold text-green-900">{contactSubmissions.length}</div>
-              <div className="mt-2">
-                <Badge variant="destructive" className="bg-red-100 text-red-800">
-                  {newContacts} Yeni Mesaj
-                </Badge>
-              </div>
-            </CardContent>
-          </Card>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="blog" className="mt-0">
+              <BlogPostsManager blogPosts={blogPosts} onRefresh={refreshBlogPosts} />
+            </TabsContent>
+            <TabsContent value="contacts" className="mt-0">
+              <ContactSubmissionsManager contacts={contactSubmissions} onRefresh={refreshContacts} />
+            </TabsContent>
+            <TabsContent value="services" className="mt-0">
+              <ServicesManager services={services} onRefresh={refreshServices} />
+            </TabsContent>
+            <TabsContent value="faqs" className="mt-0">
+              <FaqsManager faqs={faqs} onRefresh={refreshFaqs} />
+            </TabsContent>
+          </Tabs>
         </div>
-
-        {/* Main Content Tabs */}
-        <Card>
-          <CardContent className="p-6">
-            <Tabs defaultValue="blog" className="w-full">
-              <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-                <TabsTrigger value="blog">Blog Yazıları</TabsTrigger>
-                <TabsTrigger value="services">Hizmetler</TabsTrigger>
-                <TabsTrigger value="faqs">SSS</TabsTrigger>
-                <TabsTrigger value="contacts">İletişim Mesajları</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="blog" className="mt-6 ">
-                <BlogPostsManager
-                  blogPosts={blogPosts}
-                  onRefresh={refreshBlogPosts}
-                />
-              </TabsContent>
-
-              <TabsContent value="contacts" className="mt-6">
-                <ContactSubmissionsManager
-                  contacts={contactSubmissions}
-                  onRefresh={refreshContacts}
-                />
-              </TabsContent>
-
-              <TabsContent value="services" className="mt-6">
-                <ServicesManager
-                  services={services}
-                  onRefresh={refreshServices}
-                />
-              </TabsContent>
-
-              <TabsContent value="faqs" className="mt-6">
-                <FaqsManager
-                  faqs={faqs}
-                  onRefresh={refreshFaqs}
-                />
-              </TabsContent>
-            </Tabs>
-          </CardContent>
-        </Card>
-      </div>
+      </main>
 
       <Toaster />
     </div>

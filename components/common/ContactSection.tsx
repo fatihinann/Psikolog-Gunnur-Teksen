@@ -1,232 +1,114 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/lib/i18n';
-import createContactSubmissionAction from '@/actions/contact/createContactSubmission';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Phone, Mail, MapPin, Send } from 'lucide-react';
-
-const contactSchema = z.object({
-  name: z.string().min(1, 'Ad soyad gereklidir'),
-  email: z.string().email('Geçerli bir e-posta adresi giriniz'),
-  phone: z.string().optional(),
-  message: z.string().min(1, 'Mesaj gereklidir'),
-});
-
-type ContactFormData = z.infer<typeof contactSchema>;
+import { Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 export function ContactSection() {
   const { t } = useTranslation();
-  const { toast } = useToast();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const form = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
-      message: '',
-    },
-  });
-
-  const onSubmit = async (data: ContactFormData) => {
-    try {
-      setIsSubmitting(true);
-      await createContactSubmissionAction(data);
-      toast({ description: t('common.success') });
-      form.reset();
-    } catch (error) {
-      toast({
-        variant: 'destructive',
-        description: t('common.error')
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
-    }
+    visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.2 } }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   };
 
   return (
-    <section ref={ref} className="py-20 bg-white">
-      <div className="container mx-auto px-4">
+    <section ref={ref} className="py-24 bg-primary-green dark:bg-dark-surface relative overflow-hidden">
+      {/* Decorative background shapes */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-32 -right-32 w-96 h-96 bg-white/3 rounded-full blur-3xl" />
+        <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-accent-terracotta/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-48 bg-white/2 rounded-full blur-3xl" />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
+          className="max-w-5xl mx-auto"
         >
-          <motion.div variants={itemVariants} className="space-8 grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-            <div className="space-y-6">
-              <a
-                href="tel:+905356516747"
-                className="flex items-center space-x-4 p-4 rounded-lg psychology-card hover:scale-105 transition-all duration-300 group"
-              >
-                <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
-                  <Phone className="w-6 h-6 text-blue-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">{t('contact.phone')}</p>
-                  <p className="text-lg font-semibold text-gray-900">+90 535 651 67 47</p>
-                </div>
-              </a>
+          {/* Header */}
+          <motion.div variants={itemVariants} className="text-center mb-16">
+            <h2 className="text-5xl md:text-6xl font-serif font-light text-white mb-5 tracking-tight">
+              {t('home.contact.title')}
+            </h2>
+            <div className="w-16 h-0.5 bg-accent-terracotta/60 mx-auto mb-6" />
+            <p className="text-white/60 font-light text-lg max-w-xl mx-auto">
+              {t('contact.subtitle')}
+            </p>
+          </motion.div>
 
-              <a
-                href="mailto:pskgunnurteksen@gmail.com"
-                className="flex items-center space-x-4 p-4 rounded-lg psychology-card hover:scale-105 transition-all duration-300 group"
-              >
-                <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors">
-                  <Mail className="w-6 h-6 text-green-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">{t('contact.email')}</p>
-                  <p className="text-lg font-semibold text-gray-900">pskgunnurteksen@gmail.com</p>
-                </div>
-              </a>
+          {/* Horizontal contact row */}
+          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/10 dark:bg-dark-muted/30 rounded-2xl overflow-hidden mb-10">
+            <a
+              href="tel:+905356516747"
+              className="group flex flex-col items-center text-center p-8 bg-white/5 dark:bg-dark-card/60 hover:bg-white/10 dark:hover:bg-dark-muted/60 transition-all duration-300"
+            >
+              <div className="w-12 h-12 rounded-full bg-white/10 group-hover:bg-accent-terracotta/40 flex items-center justify-center mb-4 transition-all duration-300">
+                <Phone className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
+              </div>
+              <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-semibold mb-2">{t('contact.phone')}</p>
+              <p className="text-white font-semibold text-lg group-hover:text-accent-terracotta transition-colors duration-300">+90 535 651 67 47</p>
+            </a>
 
-              <div className="flex items-start space-x-4 p-4 rounded-lg psychology-card">
-                <div className="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <MapPin className="w-6 h-6 text-purple-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">{t('contact.address')}</p>
-                  <p className="text-lg font-semibold text-gray-900 leading-relaxed">
-                    {t('common.address')}
-                  </p>
-                </div>
+            <a
+              href="mailto:pskgunnurteksen@gmail.com"
+              className="group flex flex-col items-center text-center p-8 bg-white/5 dark:bg-dark-card/60 hover:bg-white/10 dark:hover:bg-dark-muted/60 transition-all duration-300"
+            >
+              <div className="w-12 h-12 rounded-full bg-white/10 group-hover:bg-primary-sage/30 flex items-center justify-center mb-4 transition-all duration-300">
+                <Mail className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
+              </div>
+              <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-semibold mb-2">{t('contact.email')}</p>
+              <p className="text-white font-medium text-sm group-hover:text-primary-sage transition-colors duration-300">pskgunnurteksen@gmail.com</p>
+            </a>
+
+            <div className="flex flex-col items-center text-center p-8 bg-white/5 dark:bg-dark-card/60">
+              <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-4">
+                <MapPin className="w-5 h-5 text-white/70" />
+              </div>
+              <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-semibold mb-2">{t('contact.address')}</p>
+              <p className="text-white/70 font-light text-sm leading-relaxed">{t('common.address')}</p>
+            </div>
+          </motion.div>
+
+          {/* Session info + CTA inline */}
+          <motion.div variants={itemVariants} className="flex flex-col md:flex-row items-center justify-between gap-6 px-2">
+            <div className="flex flex-wrap gap-6 text-sm">
+              <div className="flex items-center space-x-2 text-white/60">
+                <div className="w-1 h-1 rounded-full bg-accent-terracotta/60" />
+                <span><span className="text-white/80 font-medium">{t('session.duration')}:</span> 50 {t('common.minute')}</span>
+              </div>
+              <div className="flex items-center space-x-2 text-white/60">
+                <div className="w-1 h-1 rounded-full bg-accent-terracotta/60" />
+                <span><span className="text-white/80 font-medium">{t('session.online')}:</span> {t('session.via')}</span>
+              </div>
+              <div className="flex items-center space-x-2 text-white/60">
+                <div className="w-1 h-1 rounded-full bg-accent-terracotta/60" />
+                <span><span className="text-white/80 font-medium">{t('session.payment')}:</span> {t('session.payment.description')}</span>
               </div>
             </div>
 
-            {/* Session Info */}
-              <div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-4">{t('session.informations.title')}</h4>
-                <div className="space-y-3 text-gray-600">
-                  <p>• <strong>{t('session.duration')}</strong> 50 {t('min')}</p>
-                  <p>• <strong>{t('session.online')}</strong> {t('session.via')}</p>
-                  <p>• <strong>{t('session.payment')}</strong> {t('session.payment.description')}</p>
-                </div>
-              </div>
+            <Button
+              className="flex-shrink-0 bg-white/10 border border-white/20 hover:bg-white hover:text-primary-green text-white rounded-xl px-8 py-6 font-medium transition-all duration-300 text-sm whitespace-nowrap"
+              asChild
+            >
+              <Link href="/contact">
+                {t('common.appointment')}
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+            </Button>
           </motion.div>
-
-          {/* Contact Form */}
-          {/*<motion.div variants={itemVariants}>
-              <Card className="psychology-card">
-                <CardContent className="p-8">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-6">Mesaj Gönderin</h3>
-                  
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{t('contact.form.name')}</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Adınız ve soyadınız" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{t('contact.form.email')}</FormLabel>
-                            <FormControl>
-                              <Input type="email" placeholder="email@ornek.com" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="phone"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{t('contact.form.phone')} (İsteğe bağlı)</FormLabel>
-                            <FormControl>
-                              <Input placeholder="+90 5xx xxx xx xx" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="message"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{t('contact.form.message')}</FormLabel>
-                            <FormControl>
-                              <Textarea 
-                                placeholder="Mesajınızı buraya yazın..." 
-                                className="resize-none" 
-                                rows={5}
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <Button 
-                        type="submit" 
-                        disabled={isSubmitting}
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                        size="lg"
-                      >
-                        {isSubmitting ? (
-                          <>
-                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                            {t('contact.form.sending')}
-                          </>
-                        ) : (
-                          <>
-                            <Send className="w-5 h-5 mr-2" />
-                            {t('contact.form.submit')}
-                          </>
-                        )}
-                      </Button>
-                    </form>
-                  </Form>
-                </CardContent>
-              </Card>
-            </motion.div>*/}
-
         </motion.div>
       </div>
     </section>

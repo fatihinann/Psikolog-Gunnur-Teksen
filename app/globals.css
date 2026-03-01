@@ -4,52 +4,96 @@
 
 @layer base {
   :root {
-    --background: 30 20% 98%;
-    --foreground: 120 15% 10%;
-    --card: 0 0% 100%;
-    --card-foreground: 120 15% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 120 15% 10%;
-    --primary: 100 45% 21%;
+    --background:         40 30% 97%;
+    --foreground:         120 20% 10%;
+    --card:               0 0% 100%;
+    --card-foreground:    120 20% 10%;
+    --popover:            0 0% 100%;
+    --popover-foreground: 120 20% 10%;
+    --primary:            122 33% 18%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 90 30% 96%;
-    --secondary-foreground: 120 15% 10%;
-    --muted: 60 10% 98%;
-    --muted-foreground: 120 5% 45%;
-    --accent: 20 85% 42%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
+    --secondary:          90 20% 94%;
+    --secondary-foreground: 120 20% 10%;
+    --muted:              40 20% 96%;
+    --muted-foreground:   120 5% 45%;
+    --accent:             20 60% 53%;
+    --accent-foreground:  0 0% 100%;
+    --destructive:        0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 120 10% 90%;
-    --input: 120 10% 90%;
-    --ring: 100 45% 21%;
-    --radius: 1rem;
+    --border:             40 20% 88%;
+    --input:              40 20% 88%;
+    --ring:               122 33% 18%;
+    --radius:             1rem;
+  }
+
+  .dark {
+    --background:         60 7% 8%;
+    --foreground:         38 30% 92%;
+    --card:               60 5% 11%;
+    --card-foreground:    38 30% 92%;
+    --popover:            60 5% 11%;
+    --popover-foreground: 38 30% 92%;
+    --primary:            123 28% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary:          60 4% 16%;
+    --secondary-foreground: 38 25% 88%;
+    --muted:              60 4% 14%;
+    --muted-foreground:   38 10% 60%;
+    --accent:             20 55% 58%;
+    --accent-foreground:  0 0% 100%;
+    --destructive:        0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border:             60 4% 18%;
+    --input:              60 4% 18%;
+    --ring:               123 28% 45%;
   }
 }
 
-/* Custom theme colors for minimalist vitality */
+/* ── Custom design tokens ── */
 :root {
-  --color-primary-green: #2D4F1E;
-  --color-primary-leaf: #7A9D54;
-  --color-accent-terracotta: #D35400;
-  --color-accent-bone: #FDFCFB;
+  --color-primary-green:     #1E3A1F;
+  --color-primary-sage:      #6B8F71;
+  --color-accent-terracotta: #C4714A;
+  --color-accent-bone:       #FAF7F2;
+  --color-accent-sand:       #E8DFD0;
 }
 
+/* ── Light mode gradient ── */
 .minimalist-gradient {
-  background: linear-gradient(135deg, #FDFCFB 0%, #F1F8E8 100%);
+  background: linear-gradient(150deg, #FAF7F2 0%, #EEE8DC 50%, #E5EFE6 100%);
 }
 
+/* ── Dark mode gradient ── */
+.dark .minimalist-gradient {
+  background: linear-gradient(150deg, #141410 0%, #1C1C18 60%, #1A2A1B 100%);
+}
+
+/* ── Card style ── */
 .minimalist-card {
-  @apply bg-white/70 backdrop-blur-md border border-stone-200/60 shadow-sm hover:shadow-md transition-all duration-500 rounded-2xl;
+  @apply bg-white/70 backdrop-blur-md border border-stone-200/60 shadow-sm
+         hover:shadow-md transition-all duration-500 rounded-2xl
+         dark:bg-dark-card/80 dark:border-dark-muted/30 dark:shadow-black/20;
+}
+
+/* ── Arch-shaped photo frame ── */
+.arch-frame {
+  overflow: hidden;
+}
+
+/* ── Smooth scrolling (unless reduced motion) ── */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
   ::after {
-    animation-duration: 0.01ms !important;
+    animation-duration:       0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+    transition-duration:      0.01ms !important;
+    scroll-behavior:          auto !important;
   }
 }
