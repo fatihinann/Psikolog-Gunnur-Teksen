@@ -57,12 +57,12 @@ export default function AboutPage() {
 
         {/* About Content */}
         <section className="py-20 bg-accent-sand/30 dark:bg-dark-surface">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto">
             <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="max-w-4xl mx-auto space-y-8"
+              className="max-w-6xl mx-auto space-y-8"
             >
               {/* Introduction with Image */}
               <motion.div variants={itemVariants}>
@@ -225,6 +225,33 @@ export default function AboutPage() {
                       </div>
                     </div>
                   </motion.div>
+
+                  {/* Approach */}
+                  <motion.div variants={itemVariants}>
+                    <div className="minimalist-card p-8 bg-primary-green dark:bg-dark-forest border-primary-green dark:border-dark-forest">
+                      <div className="flex items-start space-x-5">
+                        <div className="flex-shrink-0 p-3.5 bg-white/10 rounded-2xl md:block hidden">
+                          <Heart className="w-7 h-7 text-accent-terracotta" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-6">
+                            <div className="flex-shrink-0 p-1.5 w-fit bg-primary-sage/8 dark:bg-dark-forest/40 rounded-2xl border border-primary-sage/15 dark:border-primary-sage/20 md:hidden block">
+                              <Heart className="w-6 h-6 text-accent-terracotta" />
+                            </div>
+                            <h3 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100">
+                              {t('about.approach')}
+                            </h3>
+                          </div>
+                          <p className=" leading-relaxed mb-3 text-sm font-light italic">
+                            {t('about.approach.desc.1')}
+                          </p>
+                          <p className="leading-relaxed text-sm font-light italic">
+                            {t('about.approach.desc.2')}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
                   {/* Seminerler */}
                   <motion.div variants={itemVariants}>
                     <div className="minimalist-card p-8 h-full">
@@ -254,32 +281,6 @@ export default function AboutPage() {
                     </div>
                   </motion.div>
 
-                  {/* Approach */}
-                  <motion.div variants={itemVariants}>
-                    <div className="minimalist-card p-8 bg-primary-green dark:bg-dark-forest border-primary-green dark:border-dark-forest">
-                      <div className="flex items-start space-x-5">
-                        <div className="flex-shrink-0 p-3.5 bg-white/10 rounded-2xl md:block hidden">
-                          <Heart className="w-7 h-7 text-accent-terracotta" />
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-6">
-                            <div className="flex-shrink-0 p-1.5 w-fit bg-primary-sage/8 dark:bg-dark-forest/40 rounded-2xl border border-primary-sage/15 dark:border-primary-sage/20 md:hidden block">
-                              <Heart className="w-6 h-6 text-accent-terracotta" />
-                            </div>
-                            <h3 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100">
-                              {t('about.approach')}
-                            </h3>
-                          </div>
-                          <p className=" leading-relaxed mb-3 text-sm font-light italic">
-                            {t('about.approach.desc.1')}
-                          </p>
-                          <p className="leading-relaxed text-sm font-light italic">
-                            {t('about.approach.desc.2')}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
                 </div>
               </div>
             </motion.div>

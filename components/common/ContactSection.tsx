@@ -73,13 +73,16 @@ export function ContactSection() {
               <p className="text-white font-medium text-sm group-hover:text-primary-sage transition-colors duration-300">pskgunnurteksen@gmail.com</p>
             </a>
 
-            <div className="flex flex-col items-center text-center p-8 bg-white/5 dark:bg-dark-card/60">
-              <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-4">
-                <MapPin className="w-5 h-5 text-white/70" />
+            <a href="https://maps.app.goo.gl/vrpvGciNr7rim3K79">
+              <div className="flex flex-col items-center text-center p-8 bg-white/5 dark:bg-dark-card/60">
+                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-4">
+                  <MapPin className="w-5 h-5 text-white/70" />
+                </div>
+                <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-semibold mb-2">{t('contact.address')}</p>
+                <p className="text-white/70 font-light text-sm leading-relaxed">{t('common.address')}</p>
               </div>
-              <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-semibold mb-2">{t('contact.address')}</p>
-              <p className="text-white/70 font-light text-sm leading-relaxed">{t('common.address')}</p>
-            </div>
+            </a>
+
           </motion.div>
 
           {/* Session info + CTA inline */}
