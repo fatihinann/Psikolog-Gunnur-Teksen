@@ -103,7 +103,7 @@ export default function BlogPostPage() {
               {/* Article Header */}
               <header className="mb-12">
                 <div className="flex items-center gap-4 mb-6">
-                  <Badge variant="outline" className="text-blue-600 border-blue-200">
+                  <Badge variant="outline" className="border-primary-sage text-primary-sage">
                     {blogPost.language === 'tr' ? '🇹🇷 Türkçe' : '🇺🇸 English'}
                   </Badge>
                   <div className="flex items-center text-sm text-gray-500">
@@ -119,7 +119,7 @@ export default function BlogPostPage() {
                   </div>
                   <div className="flex items-center text-sm text-gray-500">
                     <Clock className="w-4 h-4 mr-1" />
-                    ~{Math.ceil(blogPost.content.length / 1000)} dk okuma
+                    {Math.ceil(blogPost.content.length / 1000)} {t('common.minute',)}{' '}{t('common.readingTime')}
                   </div>
                 </div>
 
