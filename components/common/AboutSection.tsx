@@ -4,7 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
-import { GraduationCap, Award, Heart, Users, Calendar } from 'lucide-react';
+import { GraduationCap, Award, Heart, Users, Calendar, Briefcase } from 'lucide-react';
 import Link from 'next/link';
 
 export function AboutSection() {
@@ -51,27 +51,32 @@ export function AboutSection() {
             <div className='space-y-8'>
               {/* Eğitim */}
               <motion.div variants={itemVariants}>
-                <div className="minimalist-card p-8 h-full">
+                <div className="minimalist-card p-8">
                   <div className="flex items-start space-x-5">
-                    <div className="flex-shrink-0 p-3.5 bg-primary-green/8 dark:bg-dark-forest/40 rounded-2xl border border-primary-green/10 dark:border-primary-sage/20">
+                    <div className="flex-shrink-0 p-3.5 bg-primary-green/8 dark:bg-dark-forest/40 rounded-2xl border border-primary-green/10 dark:border-primary-sage/20 md:block hidden">
                       <GraduationCap className="w-7 h-7 text-primary-green dark:text-primary-sage" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100 mb-6">
-                        {t('about.education')}
-                      </h3>
-                      <div className="space-y-6">
-                        <div className="relative pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
+                      <div className="flex items-center gap-2 mb-6">
+                        <div className="flex-shrink-0 p-1.5 w-fit bg-primary-sage/8 dark:bg-dark-forest/40 rounded-2xl border border-primary-sage/15 dark:border-primary-sage/20 md:hidden block">
+                          <GraduationCap className="w-6 h-6 text-primary-sage" />
+                        </div>
+                        <h3 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100">
+                          {t('about.education')}
+                        </h3>
+                      </div>
+                      <ul className="space-y-5">
+                        <li className="pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
                           <p className="font-semibold text-stone-800 dark:text-stone-200">{t('education.1.name')}</p>
                           <p className="text-primary-sage dark:text-primary-sage/80 font-medium text-sm mt-0.5">{t('education.1.program')}</p>
                           <p className="text-xs text-stone-400 dark:text-stone-500 mt-1">{t('education.1.date')} — {t('education.1.location')}</p>
-                        </div>
-                        <div className="relative pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
+                        </li>
+                        <li className="pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
                           <p className="font-semibold text-stone-800 dark:text-stone-200">{t('education.2.name')}</p>
                           <p className="text-primary-sage dark:text-primary-sage/80 font-medium text-sm mt-0.5">{t('education.2.program')}</p>
                           <p className="text-xs text-stone-400 dark:text-stone-500 mt-1">{t('education.2.date')} — {t('education.2.location')}</p>
-                        </div>
-                      </div>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </div>
@@ -79,78 +84,110 @@ export function AboutSection() {
 
               {/* Deneyim */}
               <motion.div variants={itemVariants}>
-                <div className="minimalist-card p-8 h-full">
+                <div className="minimalist-card p-8">
                   <div className="flex items-start space-x-5">
-                    <div className="flex-shrink-0 p-3.5 bg-primary-sage/8 dark:bg-dark-forest/40 rounded-2xl border border-primary-sage/15 dark:border-primary-sage/20">
-                      <Users className="w-7 h-7 text-primary-sage dark:text-primary-sage" />
+                    <div className="flex-shrink-0 p-3.5 bg-primary-sage/8 dark:bg-dark-forest/40 rounded-2xl border border-primary-sage/15 dark:border-primary-sage/20 md:block hidden">
+                      <Briefcase className="w-7 h-7 text-primary-sage" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100 mb-6">
-                        {t('about.experience')}
-                      </h3>
-                      <div className="space-y-7">
-                        {[1, 2, 3, 4].map((i) => (
-                          <div key={i} className="relative pl-5 border-l border-primary-green/20 dark:border-primary-sage/20">
-                            <p className="font-semibold text-stone-800 dark:text-stone-200">{t(`experience.${i}.company`)}</p>
-                            <p className="text-primary-green dark:text-primary-sage text-sm font-medium mt-0.5">
-                              {t(`experience.${i}.position`)} <span className="text-stone-400 dark:text-stone-500 font-normal">({t(`experience.${i}.date`)})</span>
-                            </p>
-                            <div className="text-sm text-stone-500 dark:text-stone-400 mt-2 leading-relaxed space-y-1">
-                              {i === 1 ? (
-                                <p>{t(`experience.${i}.description`)}</p>
-                              ) : (
-                                <>
-                                  <p>• {t(`experience.${i}.description.1`)}</p>
-                                  <p>• {t(`experience.${i}.description.2`)}</p>
-                                  <p>• {t(`experience.${i}.description.3`)}</p>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        ))}
+                      <div className="flex items-center gap-2 mb-6">
+                        <div className="flex-shrink-0 p-1.5 w-fit bg-primary-sage/8 dark:bg-dark-forest/40 rounded-2xl border border-primary-sage/15 dark:border-primary-sage/20 md:hidden block">
+                          <Briefcase className="w-6 h-6 text-primary-sage" />
+                        </div>
+                        <h3 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100">
+                          {t('about.experience')}
+                        </h3>
                       </div>
+                      <ul className="space-y-6">
+                        <li className="pl-5 border-l border-primary-green/20 dark:border-primary-sage/20">
+                          <p className="font-semibold text-stone-800 dark:text-stone-200">{t('experience.1.company')}</p>
+                          <p className="text-primary-green dark:text-primary-sage text-sm font-medium mt-0.5">{t('experience.1.position')} <span className="text-stone-400 font-normal">({t('experience.1.date')})</span></p>
+                          <p className="text-sm text-stone-500 dark:text-stone-400 mt-1.5 font-light">— {t('experience.1.description')}</p>
+                        </li>
+                        {[2, 3, 4].map((i) => (
+                          <li key={i} className="pl-5 border-l border-primary-green/20 dark:border-primary-sage/20">
+                            <p className="font-semibold text-stone-800 dark:text-stone-200">{t(`experience.${i}.company`)}</p>
+                            <p className="text-primary-green dark:text-primary-sage text-sm font-medium mt-0.5">{t(`experience.${i}.position`)} <span className="text-stone-400 font-normal">({t(`experience.${i}.date`)})</span></p>
+                            <div className="text-sm text-stone-500 dark:text-stone-400 mt-1.5 space-y-1 font-light">
+                              <p>— {t(`experience.${i}.description.1`)}</p>
+                              <p>— {t(`experience.${i}.description.2`)}</p>
+                              <p>— {t(`experience.${i}.description.3`)}</p>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
                 </div>
               </motion.div>
-            </div>
 
+
+            </div>
             <div className='space-y-8'>
-              {/* Sertifikalar */}
+
+              {/* Certifications */}
               <motion.div variants={itemVariants}>
-                <div className="minimalist-card p-8 h-full">
+                <div className="minimalist-card p-8">
                   <div className="flex items-start space-x-5">
-                    <div className="flex-shrink-0 p-3.5 bg-accent-terracotta/8 dark:bg-accent-terracotta/15 rounded-2xl border border-accent-terracotta/15 dark:border-accent-terracotta/20">
+                    <div className="flex-shrink-0 p-3.5 bg-accent-terracotta/8 dark:bg-accent-terracotta/15 rounded-2xl border border-accent-terracotta/15 dark:border-accent-terracotta/20 md:block hidden">
                       <Award className="w-7 h-7 text-accent-terracotta" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100 mb-6">
-                        {t('about.certificates')}
-                      </h3>
-                      <div className="grid grid-cols-1 gap-3">
-                        {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                          <div key={i} className="flex items-start space-x-3 group">
-                            <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent-terracotta/50 flex-shrink-0 group-hover:scale-125 transition-transform duration-300" />
-                            <p className="text-sm text-stone-600 dark:text-stone-400 leading-snug">{t(`certification.${i}.name`)}</p>
-                          </div>
-                        ))}
+                      <div className="flex items-center gap-2 mb-6">
+                        <div className="flex-shrink-0 p-1.5 w-fit bg-primary-sage/8 dark:bg-dark-forest/40 rounded-2xl border border-primary-sage/15 dark:border-primary-sage/20 md:hidden block">
+                          <Award className="w-6 h-6 text-accent-terracotta" />
+                        </div>
+                        <h3 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100">
+                          {t('about.certificates')}
+                        </h3>
                       </div>
+                      <ul className="grid grid-cols-1 gap-3">
+                        <li className="flex items-start space-x-3">
+                          <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent-terracotta/50 flex-shrink-0" />
+                          <div>
+                            <p className="font-semibold text-stone-700 dark:text-stone-300 text-sm">Dr. Görkem Gökçelioğlu</p>
+                            <p className="text-sm text-stone-500 dark:text-stone-400 font-light">{t('certification.1.name')} ({t('certification.1.date')})</p>
+                          </div>
+                        </li>
+                        {[2, 3].map((i) => (
+                          <li key={i} className="flex items-start space-x-3">
+                            <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent-terracotta/50 flex-shrink-0" />
+                            <p className="text-sm text-stone-500 dark:text-stone-400 font-light">{t(`certification.${i}.name`)} (2024)</p>
+                          </li>
+                        ))}
+                        {[
+                          { i: 4, issuer: true }, { i: 5, issuer: true },
+                          { i: 6, issuer: false }, { i: 7, issuer: false }, { i: 8, issuer: true }
+                        ].map(({ i, issuer }) => (
+                          <li key={i} className="flex items-start space-x-3">
+                            <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent-terracotta/50 flex-shrink-0" />
+                            <div>
+                              {issuer && <p className="font-semibold text-stone-700 dark:text-stone-300 text-sm">{t(`certification.${i}.issuer`)}</p>}
+                              <p className="text-sm text-stone-500 dark:text-stone-400 font-light">{t(`certification.${i}.name`)} ({i >= 6 ? (i === 7 ? '2022' : i === 8 ? '2021' : '2023') : '2023'})</p>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
                 </div>
               </motion.div>
-
               {/* Seminerler */}
               <motion.div variants={itemVariants}>
                 <div className="minimalist-card p-8 h-full">
                   <div className="flex items-start space-x-5">
-                    <div className="flex-shrink-0 p-3.5 bg-primary-sage/8 dark:bg-primary-sage/15 rounded-2xl border border-primary-sage/15 dark:border-primary-sage/20">
-                      <Calendar className="w-7 h-7 text-primary-sage dark:text-primary-sage" />
+                    <div className="flex-shrink-0 p-3.5 bg-accent-terracotta/8 dark:bg-accent-terracotta/15 rounded-2xl border border-accent-terracotta/15 dark:border-accent-terracotta/20 md:block hidden">
+                      <Calendar className="w-7 h-7 text-accent-terracotta" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100 mb-6">
-                        {t('seminars.title')}
-                      </h3>
+                      <div className="flex items-center gap-2 mb-6">
+                        <div className="flex-shrink-0 p-1.5 w-fit bg-primary-sage/8 dark:bg-dark-forest/40 rounded-2xl border border-primary-sage/15 dark:border-primary-sage/20 md:hidden block">
+                          <Calendar className="w-6 h-6 text-accent-terracotta" />
+                        </div>
+                        <h3 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100">
+                          {t('seminars.title')}
+                        </h3>
+                      </div>
                       <div className="grid grid-cols-1 gap-4">
                         {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                           <div key={i} className="relative pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
@@ -164,39 +201,36 @@ export function AboutSection() {
                 </div>
               </motion.div>
 
-              {/* Yaklaşım */}
+              {/* Approach */}
               <motion.div variants={itemVariants}>
                 <div className="minimalist-card p-8 bg-primary-green dark:bg-dark-forest border-primary-green dark:border-dark-forest">
                   <div className="flex items-start space-x-5">
-                    <div className="flex-shrink-0 p-3.5 bg-white/10 rounded-2xl">
+                    <div className="flex-shrink-0 p-3.5 bg-white/10 rounded-2xl md:block hidden">
                       <Heart className="w-7 h-7 text-accent-terracotta" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-2xl font-serif font-semibold text-white mb-5">
-                        {t('about.approach')}
-                      </h3>
-                      <div className="text-white/80 leading-relaxed mb-6 space-y-4">
-                        <p className="text-sm italic">{t('about.approach.desc.1')}</p>
-                        <p className="text-sm italic">{t('about.approach.desc.2')}</p>
+                      <div className="flex items-center gap-2 mb-6">
+                        <div className="flex-shrink-0 p-1.5 w-fit bg-primary-sage/8 dark:bg-dark-forest/40 rounded-2xl border border-primary-sage/15 dark:border-primary-sage/20 md:hidden block">
+                          <Heart className="w-6 h-6 text-accent-terracotta" />
+                        </div>
+                        <h3 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100">
+                          {t('about.approach')}
+                        </h3>
                       </div>
-                      <Button
-                        variant="outline"
-                        className="border-white/30 text-white bg-white/5 hover:bg-white/15 rounded-xl transition-all duration-300"
-                        asChild
-                      >
-                        <Link href="/contact">
-                          <Calendar className="w-4 h-4 mr-2" />
-                          {t('common.appointment')}
-                        </Link>
-                      </Button>
+                      <p className=" leading-relaxed mb-3 text-sm font-light italic">
+                        {t('about.approach.desc.1')}
+                      </p>
+                      <p className="leading-relaxed text-sm font-light italic">
+                        {t('about.approach.desc.2')}
+                      </p>
                     </div>
                   </div>
                 </div>
               </motion.div>
             </div>
           </div>
-        </motion.div>
-      </div>
-    </section>
+        </motion.div >
+      </div >
+    </section >
   );
 }
