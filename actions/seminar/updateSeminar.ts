@@ -7,6 +7,9 @@ interface UpdateSeminarData {
     id: number;
     name: string;
     date: string;
+    type: string;
+    organization?: string;
+    duration?: string;
     language: string;
     orderNum: number;
     isActive: boolean;
@@ -20,6 +23,9 @@ async function updateSeminar(data: UpdateSeminarData) {
             data: {
                 name: data.name,
                 date: data.date,
+                type: data.type,
+                organization: data.organization,
+                duration: data.duration,
                 language: data.language,
                 orderNum: data.orderNum,
                 isActive: data.isActive,

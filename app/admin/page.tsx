@@ -80,7 +80,9 @@ interface Experience {
   company: string;
   position: string;
   date: string;
-  description: string;
+  descriptionFirst: string;
+  descriptionSecond: string | null;
+  descriptionThird: string | null;
   language: string;
   orderNum: number;
   isActive: boolean;
@@ -100,6 +102,9 @@ interface Seminar {
   id: number;
   name: string;
   date: string;
+  type: string;
+  organization: string | null;
+  duration: string | null;
   language: string;
   orderNum: number;
   isActive: boolean;

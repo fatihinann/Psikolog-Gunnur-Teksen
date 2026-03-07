@@ -24,7 +24,9 @@ const experienceSchema = z.object({
     company: z.string().min(1, 'Kurum adı gereklidir'),
     position: z.string().min(1, 'Pozisyon gereklidir'),
     date: z.string().min(1, 'Tarih gereklidir'),
-    description: z.string().min(1, 'Açıklama gereklidir'),
+    descriptionFirst: z.string().min(1, 'Birinci açıklama gereklidir'),
+    descriptionSecond: z.string().optional(),
+    descriptionThird: z.string().optional(),
     language: z.enum(['tr', 'en']),
     orderNum: z.number().int().min(0),
     isActive: z.boolean(),
@@ -37,7 +39,9 @@ interface Experience {
     company: string;
     position: string;
     date: string;
-    description: string;
+    descriptionFirst: string;
+    descriptionSecond: string | null;
+    descriptionThird: string | null;
     language: string;
     orderNum: number;
     isActive: boolean;
@@ -58,18 +62,22 @@ export function ExperienceManager({ experiences, onRefresh }: ExperienceManagerP
 
     const createForm = useForm<ExperienceFormData>({
         resolver: zodResolver(experienceSchema) as any,
-        defaultValues: { company: '', position: '', date: '', description: '', language: 'tr', orderNum: 0, isActive: true },
+        defaultValues: { company: '', position: '', date: '', descriptionFirst: '', descriptionSecond: '', descriptionThird: '', language: 'tr', orderNum: 0, isActive: true },
     });
 
     const editForm = useForm<ExperienceFormData>({
         resolver: zodResolver(experienceSchema) as any,
-        defaultValues: { company: '', position: '', date: '', description: '', language: 'tr', orderNum: 0, isActive: true },
+        defaultValues: { company: '', position: '', date: '', descriptionFirst: '', descriptionSecond: '', descriptionThird: '', language: 'tr', orderNum: 0, isActive: true },
     });
 
     const handleCreate = async (data: ExperienceFormData) => {
         try {
             setIsCreating(true);
-            await createExperienceAction(data);
+            await createExperienceAction({
+                ...data,
+                descriptionSecond: data.descriptionSecond || '',
+                descriptionThird: data.descriptionThird || '',
+            });
             toast({ description: 'Deneyim bilgisi başarıyla eklendi!' });
             createForm.reset();
             setIsCreateOpen(false);
@@ -87,7 +95,9 @@ export function ExperienceManager({ experiences, onRefresh }: ExperienceManagerP
             company: item.company,
             position: item.position,
             date: item.date,
-            description: item.description,
+            descriptionFirst: item.descriptionFirst,
+            descriptionSecond: item.descriptionSecond || '',
+            descriptionThird: item.descriptionThird || '',
             language: item.language as 'tr' | 'en',
             orderNum: Number(item.orderNum),
             isActive: item.isActive,
@@ -99,7 +109,12 @@ export function ExperienceManager({ experiences, onRefresh }: ExperienceManagerP
         if (!selectedItem) return;
         try {
             setIsUpdating(true);
-            await updateExperienceAction({ ...data, id: selectedItem.id });
+            await updateExperienceAction({
+                ...data,
+                id: selectedItem.id,
+                descriptionSecond: data.descriptionSecond || '',
+                descriptionThird: data.descriptionThird || '',
+            });
             toast({ description: 'Deneyim bilgisi başarıyla güncellendi!' });
             setIsEditOpen(false);
             setSelectedItem(null);
@@ -146,35 +161,31 @@ export function ExperienceManager({ experiences, onRefresh }: ExperienceManagerP
                     </FormItem>
                 )} />
             </div>
-            <FormField control={form.control} name="company" render={({ field }) => (
+            <FormField control={form.control} name="descriptionFirst" render={({ field }) => (
                 <FormItem>
-                    <FormLabel>Kurum / Şirket</FormLabel>
-                    <FormControl><Input placeholder="Kurum adı" {...field} /></FormControl>
+                    <FormLabel>Açıklama 1</FormLabel>
+                    <FormControl><Textarea placeholder="Deneyim detayı..." {...field} value={String(field.value || '')} /></FormControl>
                     <FormMessage />
                 </FormItem>
             )} />
-            <div className="grid grid-cols-2 gap-4">
-                <FormField control={form.control} name="position" render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Pozisyon</FormLabel>
-                        <FormControl><Input placeholder="Klinik Psikolog" {...field} /></FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-                <FormField control={form.control} name="date" render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Tarih</FormLabel>
-                        <FormControl><Input placeholder="2020 - Devam" {...field} /></FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-            </div>
-            <FormField control={form.control} name="description" render={({ field }) => (
+            <FormField control={form.control} name="descriptionSecond" render={({ field }) => (
                 <FormItem>
-                    <FormLabel>Açıklama (her satır ayrı madde olarak gösterilir)</FormLabel>
-                    <FormControl>
-                        <Textarea placeholder="Bireysel terapi seansları&#10;Aile danışmanlığı&#10;Çocuk psikolojisi" className="resize-none" rows={5} {...field} />
-                    </FormControl>
+                    <FormLabel>Açıklama 2 (Opsiyonel)</FormLabel>
+                    <FormControl><Textarea placeholder="Ek detay..." {...field} value={field.value || ''} /></FormControl>
+                    <FormMessage />
+                </FormItem>
+            )} />
+            <FormField control={form.control} name="descriptionThird" render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Açıklama 3 (Opsiyonel)</FormLabel>
+                    <FormControl><Textarea placeholder="Ek detay..." {...field} value={field.value || ''} /></FormControl>
+                    <FormMessage />
+                </FormItem>
+            )} />
+            <FormField control={form.control} name="company" render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Kurum / Şirket</FormLabel>
+                    <FormControl><Input placeholder="Psikolojik Danışmanlık Merkezi" {...field} value={String(field.value || '')} /></FormControl>
                     <FormMessage />
                 </FormItem>
             )} />

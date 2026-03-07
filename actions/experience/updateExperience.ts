@@ -8,7 +8,9 @@ interface UpdateExperienceData {
     company: string;
     position: string;
     date: string;
-    description: string;
+    descriptionFirst: string;
+    descriptionSecond: string;
+    descriptionThird: string;
     language: string;
     orderNum: number;
     isActive: boolean;
@@ -23,7 +25,9 @@ async function updateExperience(data: UpdateExperienceData) {
                 company: data.company,
                 position: data.position,
                 date: data.date,
-                description: data.description,
+                descriptionFirst: data.descriptionFirst,
+                descriptionSecond: data.descriptionSecond,
+                descriptionThird: data.descriptionThird,
                 language: data.language,
                 orderNum: data.orderNum,
                 isActive: data.isActive,

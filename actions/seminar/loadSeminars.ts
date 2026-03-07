@@ -7,6 +7,9 @@ export interface Seminar {
     id: number;
     name: string;
     date: string;
+    type: string;
+    organization: string | null;
+    duration: string | null;
     language: string;
     orderNum: number;
     isActive: boolean;

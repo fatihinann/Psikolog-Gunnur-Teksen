@@ -22,6 +22,9 @@ import deleteSeminarAction from '@/actions/seminar/deleteSeminar';
 const seminarSchema = z.object({
     name: z.string().min(1, 'Seminer adı gereklidir'),
     date: z.string().min(1, 'Tarih gereklidir'),
+    type: z.string().min(1, 'Tür gereklidir (Katılımcı, Konuşmacı vb.)'),
+    organization: z.string().optional(),
+    duration: z.string().optional(),
     language: z.enum(['tr', 'en']),
     orderNum: z.number().int().min(0),
     isActive: z.boolean(),
@@ -33,6 +36,9 @@ interface Seminar {
     id: number;
     name: string;
     date: string;
+    type: string;
+    organization: string | null;
+    duration: string | null;
     language: string;
     orderNum: number;
     isActive: boolean;
@@ -53,12 +59,12 @@ export function SeminarManager({ seminars, onRefresh }: SeminarManagerProps) {
 
     const createForm = useForm<SeminarFormData>({
         resolver: zodResolver(seminarSchema) as any,
-        defaultValues: { name: '', date: '', language: 'tr', orderNum: 0, isActive: true },
+        defaultValues: { name: '', date: '', type: '', organization: '', duration: '', language: 'tr', orderNum: 0, isActive: true },
     });
 
     const editForm = useForm<SeminarFormData>({
         resolver: zodResolver(seminarSchema) as any,
-        defaultValues: { name: '', date: '', language: 'tr', orderNum: 0, isActive: true },
+        defaultValues: { name: '', date: '', type: '', organization: '', duration: '', language: 'tr', orderNum: 0, isActive: true },
     });
 
     const handleCreate = async (data: SeminarFormData) => {
@@ -81,6 +87,9 @@ export function SeminarManager({ seminars, onRefresh }: SeminarManagerProps) {
         editForm.reset({
             name: item.name,
             date: item.date,
+            type: item.type,
+            organization: item.organization || '',
+            duration: item.duration || '',
             language: item.language as 'tr' | 'en',
             orderNum: item.orderNum,
             isActive: item.isActive,
@@ -150,6 +159,27 @@ export function SeminarManager({ seminars, onRefresh }: SeminarManagerProps) {
                 <FormItem>
                     <FormLabel>Tarih</FormLabel>
                     <FormControl><Input placeholder="Mart 2024" {...field} /></FormControl>
+                    <FormMessage />
+                </FormItem>
+            )} />
+            <FormField control={form.control} name="type" render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Tür</FormLabel>
+                    <FormControl><Input placeholder="Konuşmacı, Katılımcı vb." {...field} /></FormControl>
+                    <FormMessage />
+                </FormItem>
+            )} />
+            <FormField control={form.control} name="organization" render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Kurum (Opsiyonel)</FormLabel>
+                    <FormControl><Input placeholder="Kurum adı" {...field} value={field.value || ''} /></FormControl>
+                    <FormMessage />
+                </FormItem>
+            )} />
+            <FormField control={form.control} name="duration" render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Süre (Opsiyonel)</FormLabel>
+                    <FormControl><Input placeholder="12 Saat, 2 Gün vb." {...field} value={field.value || ''} /></FormControl>
                     <FormMessage />
                 </FormItem>
             )} />
