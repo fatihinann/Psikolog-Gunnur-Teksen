@@ -35,7 +35,7 @@ export function Footer() {
                 <Instagram className="w-4 h-4" />
               </a>
               <a
-                href="tel:+905356516747"
+                href="tel:+905016050697"
                 className="w-10 h-10 rounded-full bg-dark-muted flex items-center justify-center text-stone-500 hover:bg-dark-forest hover:text-white transition-all duration-300"
               >
                 <Phone className="w-4 h-4" />
@@ -94,9 +94,9 @@ export function Footer() {
                   İstasyon, Yarımburgaz Cad., No:31., {t('common.floor')}: 11, {t('common.apartment')}: 90, Küçükçekmece/İstanbul
                 </span>
               </div>
-              <a href="tel:+905356516747" className="flex items-center space-x-3 text-stone-500 hover:text-stone-300 transition-colors duration-300">
+              <a href="tel:+905016050697" className="flex items-center space-x-3 text-stone-500 hover:text-stone-300 transition-colors duration-300">
                 <Phone className="w-4 h-4 text-primary-sage shrink-0" />
-                <span className="font-medium text-sm">+90 535 651 67 47</span>
+                <span className="font-medium text-sm">+90 501 605 06 97</span>
               </a>
               <a href="mailto:pskgunnurteksen@gmail.com" className="flex items-center space-x-3 text-stone-500 hover:text-stone-300 transition-colors duration-300">
                 <Mail className="w-4 h-4 text-primary-sage shrink-0" />

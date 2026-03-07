@@ -29,9 +29,9 @@ export function FaqsManager({ faqs, onRefresh }: FaqsManagerProps) {
 
   const getStatusBadge = (isActive: boolean) => {
     return isActive ? (
-      <Badge variant="default" className="bg-green-100 text-green-800">Aktif</Badge>
+      <Badge variant="default" className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-none">Aktif</Badge>
     ) : (
-      <Badge variant="secondary" className="bg-gray-100 text-gray-800">Pasif</Badge>
+      <Badge variant="secondary" className="bg-gray-100 text-gray-800 dark:bg-stone-800 dark:text-stone-400 border-none">Pasif</Badge>
     );
   };
 
@@ -64,7 +64,7 @@ export function FaqsManager({ faqs, onRefresh }: FaqsManagerProps) {
                     <div className="max-w-xs">{faq.question}</div>
                   </TableCell>
                   <TableCell>
-                    <div className="text-sm text-gray-600 line-clamp-3 max-w-md">
+                    <div className="text-sm text-stone-600 dark:text-stone-400 line-clamp-3 max-w-md">
                       {faq.answer}
                     </div>
                   </TableCell>

@@ -165,7 +165,7 @@ export default function FAQPage() {
                       className="border-stone-200 dark:border-dark-muted text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-dark-muted/50 px-10 py-6 rounded-2xl font-medium"
                       asChild
                     >
-                      <a href="tel:+905356516747">
+                      <a href="tel:+905016050697">
                         <Phone className="w-4 h-4 mr-2" />
                         {t('common.call')}
                       </a>

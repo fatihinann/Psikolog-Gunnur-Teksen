@@ -20,8 +20,8 @@ export default function ContactPage() {
     {
       icon: Phone,
       label: t('contact.phone'),
-      value: '+90 535 651 67 47',
-      href: 'tel:+905356516747',
+      value: '+90 501 605 06 97',
+      href: 'tel:+905016050697',
       accent: 'bg-primary-green/8 dark:bg-dark-forest/40 text-primary-green dark:text-primary-sage border-primary-green/10 dark:border-primary-sage/20',
     },
     {
@@ -118,7 +118,6 @@ export default function ContactPage() {
                   <div className="space-y-4">
                     {[
                       { label: t('session.duration'), value: `50 ${t('min')}` },
-                      { label: t('session.online'), value: t('session.via') },
                       { label: t('session.payment'), value: t('session.payment.description') },
                     ].map((item, i) => (
                       <div key={i} className="flex items-start space-x-3">
@@ -150,7 +149,7 @@ export default function ContactPage() {
                       className="bg-white/15 hover:bg-white/25 text-white border border-white/20 rounded-xl w-full font-medium transition-all duration-300"
                       asChild
                     >
-                      <a href="tel:+905356516747">
+                      <a href="tel:+905016050697">
                         <Phone className="w-4 h-4 mr-2" />
                         {t('common.call')}
                       </a>

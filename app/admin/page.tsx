@@ -5,11 +5,15 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Toaster } from '@/components/ui/toaster';
-import { FileText, MessageSquare, Phone, HelpCircle, LogOut, LayoutDashboard } from 'lucide-react';
+import { FileText, MessageSquare, Phone, HelpCircle, LogOut, LayoutDashboard, GraduationCap, Briefcase, Award, Calendar } from 'lucide-react';
 import { BlogPostsManager } from '@/components/BlogPostsMenager';
 import { ContactSubmissionsManager } from '@/components/ContactSubmissionsManager';
 import { ServicesManager } from '@/components/ServicesManager';
 import { FaqsManager } from '@/components/FaqsManager';
+import { EducationManager } from '@/components/EducationManager';
+import { ExperienceManager } from '@/components/ExperienceManager';
+import { CertificateManager } from '@/components/CertificateManager';
+import { SeminarManager } from '@/components/SeminarManager';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
@@ -17,6 +21,10 @@ import loadBlogPostsAction from '@/actions/blog/loadBlogPosts';
 import loadContactSubmissionsAction from '@/actions/contact/loadContactSubmissions';
 import loadServicesAction from '@/actions/services/loadServices';
 import loadFaqsAction from '@/actions/faqs/loadFaqs';
+import loadEducationsAction from '@/actions/education/loadEducations';
+import loadExperiencesAction from '@/actions/experience/loadExperiences';
+import loadCertificatesAction from '@/actions/certificate/loadCertificates';
+import loadSeminarsAction from '@/actions/seminar/loadSeminars';
 
 interface BlogPost {
   id: number;
@@ -56,27 +64,80 @@ interface FAQ {
   isActive: boolean;
 }
 
+interface Education {
+  id: number;
+  name: string;
+  program: string;
+  location: string;
+  date: string;
+  language: string;
+  orderNum: number;
+  isActive: boolean;
+}
+
+interface Experience {
+  id: number;
+  company: string;
+  position: string;
+  date: string;
+  description: string;
+  language: string;
+  orderNum: number;
+  isActive: boolean;
+}
+
+interface Certificate {
+  id: number;
+  name: string;
+  issuer: string | null;
+  date: string;
+  language: string;
+  orderNum: number;
+  isActive: boolean;
+}
+
+interface Seminar {
+  id: number;
+  name: string;
+  date: string;
+  language: string;
+  orderNum: number;
+  isActive: boolean;
+}
+
 export default function AdminPage() {
   const { isAuthenticated, username, isLoading: authLoading, logout } = useAuth();
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [contactSubmissions, setContactSubmissions] = useState<ContactSubmission[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [faqs, setFaqs] = useState<FAQ[]>([]);
+  const [educations, setEducations] = useState<Education[]>([]);
+  const [experiences, setExperiences] = useState<Experience[]>([]);
+  const [certificates, setCertificates] = useState<Certificate[]>([]);
+  const [seminars, setSeminars] = useState<Seminar[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [posts, contacts, servicesData, faqsData] = await Promise.all([
+        const [posts, contacts, servicesData, faqsData, educationsData, experiencesData, certificatesData, seminarsData] = await Promise.all([
           loadBlogPostsAction(true),
           loadContactSubmissionsAction(),
           loadServicesAction(true),
           loadFaqsAction(true),
+          loadEducationsAction(true),
+          loadExperiencesAction(true),
+          loadCertificatesAction(true),
+          loadSeminarsAction(true),
         ]);
         setBlogPosts(posts);
         setContactSubmissions(contacts);
         setServices(servicesData);
         setFaqs(faqsData);
+        setEducations(educationsData);
+        setExperiences(experiencesData);
+        setCertificates(certificatesData);
+        setSeminars(seminarsData);
       } catch (error) {
         console.error('Error loading data:', error);
       } finally {
@@ -90,6 +151,10 @@ export default function AdminPage() {
   const refreshContacts = () => loadContactSubmissionsAction().then(setContactSubmissions);
   const refreshServices = () => loadServicesAction().then(setServices);
   const refreshFaqs = () => loadFaqsAction().then(setFaqs);
+  const refreshEducations = () => loadEducationsAction(true).then(setEducations);
+  const refreshExperiences = () => loadExperiencesAction(true).then(setExperiences);
+  const refreshCertificates = () => loadCertificatesAction(true).then(setCertificates);
+  const refreshSeminars = () => loadSeminarsAction(true).then(setSeminars);
 
   const publishedPosts = blogPosts.filter(p => p.status === 'published').length;
   const draftPosts = blogPosts.filter(p => p.status === 'draft').length;
@@ -237,30 +302,54 @@ export default function AdminPage() {
         {/* Content Tabs */}
         <div className="minimalist-card p-6">
           <Tabs defaultValue="blog" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-stone-100/80 dark:bg-dark-muted/40 rounded-xl p-1 mb-6 border border-stone-200/30 dark:border-dark-muted/30">
+            <TabsList className="grid w-full grid-cols-4 sm:grid-cols-8 bg-stone-100/80 dark:bg-dark-muted/40 rounded-xl p-1 mb-6 border border-stone-200/30 dark:border-dark-muted/30">
               <TabsTrigger
                 value="blog"
-                className="rounded-lg text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:text-primary-green dark:data-[state=active]:text-primary-sage data-[state=active]:shadow-sm transition-all duration-200"
+                className="rounded-lg text-xs sm:text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:text-primary-green dark:data-[state=active]:text-primary-sage data-[state=active]:shadow-sm transition-all duration-200"
               >
-                Blog Yazıları
+                Blog
               </TabsTrigger>
               <TabsTrigger
                 value="services"
-                className="rounded-lg text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:text-accent-terracotta dark:data-[state=active]:text-accent-terracotta data-[state=active]:shadow-sm transition-all duration-200"
+                className="rounded-lg text-xs sm:text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:text-accent-terracotta dark:data-[state=active]:text-accent-terracotta data-[state=active]:shadow-sm transition-all duration-200"
               >
                 Hizmetler
               </TabsTrigger>
               <TabsTrigger
                 value="faqs"
-                className="rounded-lg text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:text-primary-sage dark:data-[state=active]:text-primary-sage data-[state=active]:shadow-sm transition-all duration-200"
+                className="rounded-lg text-xs sm:text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:text-primary-sage dark:data-[state=active]:text-primary-sage data-[state=active]:shadow-sm transition-all duration-200"
               >
                 SSS
               </TabsTrigger>
               <TabsTrigger
                 value="contacts"
-                className="rounded-lg text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:shadow-sm transition-all duration-200"
+                className="rounded-lg text-xs sm:text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:shadow-sm transition-all duration-200"
               >
                 İletişim
+              </TabsTrigger>
+              <TabsTrigger
+                value="education"
+                className="rounded-lg text-xs sm:text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:text-primary-green dark:data-[state=active]:text-primary-sage data-[state=active]:shadow-sm transition-all duration-200"
+              >
+                Eğitim
+              </TabsTrigger>
+              <TabsTrigger
+                value="experience"
+                className="rounded-lg text-xs sm:text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:text-primary-green dark:data-[state=active]:text-primary-sage data-[state=active]:shadow-sm transition-all duration-200"
+              >
+                Deneyim
+              </TabsTrigger>
+              <TabsTrigger
+                value="certificates"
+                className="rounded-lg text-xs sm:text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:text-accent-terracotta dark:data-[state=active]:text-accent-terracotta data-[state=active]:shadow-sm transition-all duration-200"
+              >
+                Sertifikalar
+              </TabsTrigger>
+              <TabsTrigger
+                value="seminars"
+                className="rounded-lg text-xs sm:text-sm font-medium data-[state=active]:bg-white dark:data-[state=active]:bg-dark-card data-[state=active]:text-accent-terracotta dark:data-[state=active]:text-accent-terracotta data-[state=active]:shadow-sm transition-all duration-200"
+              >
+                Seminerler
               </TabsTrigger>
             </TabsList>
 
@@ -275,6 +364,18 @@ export default function AdminPage() {
             </TabsContent>
             <TabsContent value="faqs" className="mt-0">
               <FaqsManager faqs={faqs} onRefresh={refreshFaqs} />
+            </TabsContent>
+            <TabsContent value="education" className="mt-0">
+              <EducationManager educations={educations} onRefresh={refreshEducations} />
+            </TabsContent>
+            <TabsContent value="experience" className="mt-0">
+              <ExperienceManager experiences={experiences} onRefresh={refreshExperiences} />
+            </TabsContent>
+            <TabsContent value="certificates" className="mt-0">
+              <CertificateManager certificates={certificates} onRefresh={refreshCertificates} />
+            </TabsContent>
+            <TabsContent value="seminars" className="mt-0">
+              <SeminarManager seminars={seminars} onRefresh={refreshSeminars} />
             </TabsContent>
           </Tabs>
         </div>

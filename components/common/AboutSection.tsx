@@ -2,15 +2,59 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
 import { GraduationCap, Award, Heart, Users, Calendar, Briefcase } from 'lucide-react';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import loadCertificatesAction, { Certificate } from '@/actions/certificate/loadCertificates';
+import loadEducationsAction, { Education } from '@/actions/education/loadEducations';
+import loadExperiencesAction, { Experience } from '@/actions/experience/loadExperiences';
+import loadSeminarsAction, { Seminar } from '@/actions/seminar/loadSeminars';
 
 export function AboutSection() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  const [data, setData] = useState<{
+    certificates: Certificate[];
+    educations: Education[];
+    experiences: Experience[];
+    seminars: Seminar[];
+  }>({
+    certificates: [],
+    educations: [],
+    experiences: [],
+    seminars: [],
+  });
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [certs, edus, exps, sems] = await Promise.all([
+          loadCertificatesAction(),
+          loadEducationsAction(),
+          loadExperiencesAction(),
+          loadSeminarsAction(),
+        ]);
+        setData({
+          certificates: certs as Certificate[],
+          educations: edus as Education[],
+          experiences: exps as Experience[],
+          seminars: sems as Seminar[],
+        });
+      } catch (error) {
+        console.error('Error loading data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const certificates = data.certificates.filter(c => c.language === language);
+  const educations = data.educations.filter(e => e.language === language);
+  const experiences = data.experiences.filter(e => e.language === language);
+  const seminars = data.seminars.filter(s => s.language === language);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -66,16 +110,13 @@ export function AboutSection() {
                         </h3>
                       </div>
                       <ul className="space-y-5">
-                        <li className="pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
-                          <p className="font-semibold text-stone-800 dark:text-stone-200">{t('education.1.name')}</p>
-                          <p className="text-primary-sage dark:text-primary-sage/80 font-medium text-sm mt-0.5">{t('education.1.program')}</p>
-                          <p className="text-xs text-stone-400 dark:text-stone-500 mt-1">{t('education.1.date')} — {t('education.1.location')}</p>
-                        </li>
-                        <li className="pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
-                          <p className="font-semibold text-stone-800 dark:text-stone-200">{t('education.2.name')}</p>
-                          <p className="text-primary-sage dark:text-primary-sage/80 font-medium text-sm mt-0.5">{t('education.2.program')}</p>
-                          <p className="text-xs text-stone-400 dark:text-stone-500 mt-1">{t('education.2.date')} — {t('education.2.location')}</p>
-                        </li>
+                        {educations.map((item) => (
+                          <li key={item.id} className="pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
+                            <p className="font-semibold text-stone-800 dark:text-stone-200">{item.name}</p>
+                            <p className="text-primary-sage dark:text-primary-sage/80 font-medium text-sm mt-0.5">{item.program}</p>
+                            <p className="text-xs text-stone-400 dark:text-stone-500 mt-1">{item.date} — {item.location}</p>
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -99,19 +140,14 @@ export function AboutSection() {
                         </h3>
                       </div>
                       <ul className="space-y-6">
-                        <li className="pl-5 border-l border-primary-green/20 dark:border-primary-sage/20">
-                          <p className="font-semibold text-stone-800 dark:text-stone-200">{t('experience.1.company')}</p>
-                          <p className="text-primary-green dark:text-primary-sage text-sm font-medium mt-0.5">{t('experience.1.position')} <span className="text-stone-400 font-normal">({t('experience.1.date')})</span></p>
-                          <p className="text-sm text-stone-500 dark:text-stone-400 mt-1.5 font-light">— {t('experience.1.description')}</p>
-                        </li>
-                        {[2, 3, 4].map((i) => (
-                          <li key={i} className="pl-5 border-l border-primary-green/20 dark:border-primary-sage/20">
-                            <p className="font-semibold text-stone-800 dark:text-stone-200">{t(`experience.${i}.company`)}</p>
-                            <p className="text-primary-green dark:text-primary-sage text-sm font-medium mt-0.5">{t(`experience.${i}.position`)} <span className="text-stone-400 font-normal">({t(`experience.${i}.date`)})</span></p>
+                        {experiences.map((item) => (
+                          <li key={item.id} className="pl-5 border-l border-primary-green/20 dark:border-primary-sage/20">
+                            <p className="font-semibold text-stone-800 dark:text-stone-200">{item.company}</p>
+                            <p className="text-primary-green dark:text-primary-sage text-sm font-medium mt-0.5">{item.position} <span className="text-stone-400 font-normal">({item.date})</span></p>
                             <div className="text-sm text-stone-500 dark:text-stone-400 mt-1.5 space-y-1 font-light">
-                              <p>— {t(`experience.${i}.description.1`)}</p>
-                              <p>— {t(`experience.${i}.description.2`)}</p>
-                              <p>— {t(`experience.${i}.description.3`)}</p>
+                              {item.descriptionFirst && <p>— {item.descriptionFirst}</p>}
+                              {item.descriptionSecond && <p>— {item.descriptionSecond}</p>}
+                              {item.descriptionThird && <p>— {item.descriptionThird}</p>}
                             </div>
                           </li>
                         ))}
@@ -142,28 +178,12 @@ export function AboutSection() {
                         </h3>
                       </div>
                       <ul className="grid grid-cols-1 gap-3">
-                        <li className="flex items-start space-x-3">
-                          <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent-terracotta/50 flex-shrink-0" />
-                          <div>
-                            <p className="font-semibold text-stone-700 dark:text-stone-300 text-sm">Dr. Görkem Gökçelioğlu</p>
-                            <p className="text-sm text-stone-500 dark:text-stone-400 font-light">{t('certification.1.name')} ({t('certification.1.date')})</p>
-                          </div>
-                        </li>
-                        {[2, 3].map((i) => (
-                          <li key={i} className="flex items-start space-x-3">
-                            <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent-terracotta/50 flex-shrink-0" />
-                            <p className="text-sm text-stone-500 dark:text-stone-400 font-light">{t(`certification.${i}.name`)} (2024)</p>
-                          </li>
-                        ))}
-                        {[
-                          { i: 4, issuer: true }, { i: 5, issuer: true },
-                          { i: 6, issuer: false }, { i: 7, issuer: false }, { i: 8, issuer: true }
-                        ].map(({ i, issuer }) => (
-                          <li key={i} className="flex items-start space-x-3">
+                        {certificates.map((item) => (
+                          <li key={item.id} className="flex items-start space-x-3">
                             <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent-terracotta/50 flex-shrink-0" />
                             <div>
-                              {issuer && <p className="font-semibold text-stone-700 dark:text-stone-300 text-sm">{t(`certification.${i}.issuer`)}</p>}
-                              <p className="text-sm text-stone-500 dark:text-stone-400 font-light">{t(`certification.${i}.name`)} ({i >= 6 ? (i === 7 ? '2022' : i === 8 ? '2021' : '2023') : '2023'})</p>
+                              {item.issuer && <p className="font-semibold text-stone-700 dark:text-stone-300 text-sm">{item.issuer}</p>}
+                              <p className="text-sm text-stone-500 dark:text-stone-400 font-light">{item.name} ({item.date})</p>
                             </div>
                           </li>
                         ))}
@@ -216,10 +236,10 @@ export function AboutSection() {
                         </h3>
                       </div>
                       <div className="grid grid-cols-1 gap-4">
-                        {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                          <div key={i} className="relative pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
-                            <p className="font-semibold text-stone-800 dark:text-stone-200 text-sm leading-snug">{t(`seminar.${i}.name`)}</p>
-                            <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">{t(`seminar.${i}.date`)}</p>
+                        {seminars.map((item) => (
+                          <div key={item.id} className="relative pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
+                            <p className="font-semibold text-stone-800 dark:text-stone-200 text-sm leading-snug">{item.name}</p>
+                            <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">{item.date}</p>
                           </div>
                         ))}
                       </div>

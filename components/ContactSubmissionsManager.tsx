@@ -36,14 +36,14 @@ export function ContactSubmissionsManager({ contacts, onRefresh }: ContactSubmis
     try {
       setIsUpdating(true);
       await updateContactStatusAction({ id: contactId, status: newStatus });
-      toast({ 
-        description: `İletişim durumu "${newStatus}" olarak güncellendi!` 
+      toast({
+        description: `İletişim durumu "${newStatus}" olarak güncellendi!`
       });
       onRefresh();
     } catch (error) {
-      toast({ 
-        variant: 'destructive', 
-        description: 'Durum güncellenirken hata oluştu.' 
+      toast({
+        variant: 'destructive',
+        description: 'Durum güncellenirken hata oluştu.'
       });
     } finally {
       setIsUpdating(false);
@@ -53,7 +53,7 @@ export function ContactSubmissionsManager({ contacts, onRefresh }: ContactSubmis
   const handleView = (contact: ContactSubmission) => {
     setSelectedContact(contact);
     setIsViewOpen(true);
-    
+
     // Mark as read if it's new
     if (contact.status === 'new') {
       handleStatusUpdate(contact.id, 'read');
@@ -63,11 +63,11 @@ export function ContactSubmissionsManager({ contacts, onRefresh }: ContactSubmis
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'new':
-        return <Badge variant="destructive" className="bg-red-100 text-red-800">Yeni</Badge>;
+        return <Badge variant="destructive" className="bg-red-100 text-red-800 dark:bg-red-950/30 dark:text-red-400 border-none">Yeni</Badge>;
       case 'read':
-        return <Badge variant="default" className="bg-blue-100 text-blue-800">Okundu</Badge>;
+        return <Badge variant="default" className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-none">Okundu</Badge>;
       case 'responded':
-        return <Badge variant="default" className="bg-green-100 text-green-800">Yanıtlandı</Badge>;
+        return <Badge variant="default" className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-none">Yanıtlandı</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -110,7 +110,7 @@ export function ContactSubmissionsManager({ contacts, onRefresh }: ContactSubmis
             </TableHeader>
             <TableBody>
               {contacts.map((contact) => (
-                <TableRow key={contact.id} className={contact.status === 'new' ? 'bg-blue-50' : ''}>
+                <TableRow key={contact.id} className={contact.status === 'new' ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''}>
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2">
                       {getStatusIcon(contact.status)}
@@ -170,7 +170,7 @@ export function ContactSubmissionsManager({ contacts, onRefresh }: ContactSubmis
 
       {/* View Dialog */}
       <Dialog open={isViewOpen} onOpenChange={setIsViewOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl bg-white dark:bg-dark-card dark:text-stone-100 border-none shadow-2xl">
           <DialogHeader>
             <DialogTitle>İletişim Mesajı Detayları</DialogTitle>
           </DialogHeader>
@@ -186,7 +186,7 @@ export function ContactSubmissionsManager({ contacts, onRefresh }: ContactSubmis
                   <div className="mt-1">{getStatusBadge(selectedContact.status)}</div>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium text-gray-500">E-posta</label>
@@ -200,8 +200,8 @@ export function ContactSubmissionsManager({ contacts, onRefresh }: ContactSubmis
 
               <div>
                 <label className="text-sm font-medium text-gray-500">Mesaj</label>
-                <div className="mt-1 p-3 bg-gray-50 rounded-lg">
-                  <p className="text-sm whitespace-pre-wrap">{selectedContact.message}</p>
+                <div className="mt-1 p-3 bg-stone-50 dark:bg-dark-surface/50 rounded-lg">
+                  <p className="text-sm whitespace-pre-wrap text-stone-900 dark:text-stone-100">{selectedContact.message}</p>
                 </div>
               </div>
 
@@ -213,8 +213,8 @@ export function ContactSubmissionsManager({ contacts, onRefresh }: ContactSubmis
               </div>
 
               <div className="flex justify-end gap-2 pt-4">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   onClick={() => setIsViewOpen(false)}
                 >
                   Kapat

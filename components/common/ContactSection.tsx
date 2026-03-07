@@ -52,14 +52,14 @@ export function ContactSection() {
           {/* Horizontal contact row */}
           <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/10 dark:bg-dark-muted/30 rounded-2xl overflow-hidden mb-10">
             <a
-              href="tel:+905356516747"
+              href="tel:+905016050697"
               className="group flex flex-col items-center text-center p-8 bg-white/5 dark:bg-dark-card/60 hover:bg-white/10 dark:hover:bg-dark-muted/60 transition-all duration-300"
             >
               <div className="w-12 h-12 rounded-full bg-white/10 group-hover:bg-accent-terracotta/40 flex items-center justify-center mb-4 transition-all duration-300">
                 <Phone className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
               </div>
               <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-semibold mb-2">{t('contact.phone')}</p>
-              <p className="text-white font-semibold text-lg group-hover:text-accent-terracotta transition-colors duration-300">+90 535 651 67 47</p>
+              <p className="text-white font-semibold text-lg group-hover:text-accent-terracotta transition-colors duration-300">+90 501 605 06 97</p>
             </a>
 
             <a
@@ -91,10 +91,6 @@ export function ContactSection() {
               <div className="flex items-center space-x-2 text-white/60">
                 <div className="w-1 h-1 rounded-full bg-accent-terracotta/60" />
                 <span><span className="text-white/80 font-medium">{t('session.duration')}:</span> 50 {t('common.minute')}</span>
-              </div>
-              <div className="flex items-center space-x-2 text-white/60">
-                <div className="w-1 h-1 rounded-full bg-accent-terracotta/60" />
-                <span><span className="text-white/80 font-medium">{t('session.online')}:</span> {t('session.via')}</span>
               </div>
               <div className="flex items-center space-x-2 text-white/60">
                 <div className="w-1 h-1 rounded-full bg-accent-terracotta/60" />

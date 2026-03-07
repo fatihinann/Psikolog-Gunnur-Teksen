@@ -3,15 +3,53 @@
 import { motion } from 'framer-motion';
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
-import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
-import { GraduationCap, Award, Briefcase, Heart, Phone, Calendar } from 'lucide-react';
-import Link from 'next/link';
+import { GraduationCap, Award, Briefcase, Heart, Calendar } from 'lucide-react';
 import Image from 'next/image';
-import gunnurteksen from '@/assets/img/gunnurteksen.webp'
+import gunnurteksen from '@/assets/img/gunnurteksen.webp';
+import { useEffect, useState } from 'react';
+import loadEducationsAction, { Education } from '@/actions/education/loadEducations';
+import loadExperiencesAction, { Experience } from '@/actions/experience/loadExperiences';
+import loadCertificatesAction, { Certificate } from '@/actions/certificate/loadCertificates';
+import loadSeminarsAction, { Seminar } from '@/actions/seminar/loadSeminars';
+
 
 export default function AboutPage() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+
+  const [educations, setEducations] = useState<Education[]>([]);
+  const [experiences, setExperiences] = useState<Experience[]>([]);
+  const [certificates, setCertificates] = useState<Certificate[]>([]);
+  const [seminars, setSeminars] = useState<Seminar[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [eduData, expData, certData, semData] = await Promise.all([
+          loadEducationsAction(),
+          loadExperiencesAction(),
+          loadCertificatesAction(),
+          loadSeminarsAction(),
+        ]);
+        setEducations(eduData);
+        setExperiences(expData);
+        setCertificates(certData);
+        setSeminars(semData);
+      } catch (error) {
+        console.error('Error loading about data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // Filter by currently selected language
+  const filteredEducations = educations.filter(e => e.language === language);
+  const filteredExperiences = experiences.filter(e => e.language === language);
+  const filteredCertificates = certificates.filter(c => c.language === language);
+  const filteredSeminars = seminars.filter(s => s.language === language);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -119,16 +157,19 @@ export default function AboutPage() {
                             </h3>
                           </div>
                           <ul className="space-y-5">
-                            <li className="pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
-                              <p className="font-semibold text-stone-800 dark:text-stone-200">{t('education.1.name')}</p>
-                              <p className="text-primary-sage dark:text-primary-sage/80 font-medium text-sm mt-0.5">{t('education.1.program')}</p>
-                              <p className="text-xs text-stone-400 dark:text-stone-500 mt-1">{t('education.1.date')} — {t('education.1.location')}</p>
-                            </li>
-                            <li className="pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
-                              <p className="font-semibold text-stone-800 dark:text-stone-200">{t('education.2.name')}</p>
-                              <p className="text-primary-sage dark:text-primary-sage/80 font-medium text-sm mt-0.5">{t('education.2.program')}</p>
-                              <p className="text-xs text-stone-400 dark:text-stone-500 mt-1">{t('education.2.date')} — {t('education.2.location')}</p>
-                            </li>
+                            {loading ? (
+                              <li className="text-stone-400 text-sm">{t('common.loading')}</li>
+                            ) : filteredEducations.length > 0 ? (
+                              filteredEducations.map((edu) => (
+                                <li key={edu.id} className="pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
+                                  <p className="font-semibold text-stone-800 dark:text-stone-200">{edu.name}</p>
+                                  <p className="text-primary-sage dark:text-primary-sage/80 font-medium text-sm mt-0.5">{edu.program}</p>
+                                  <p className="text-xs text-stone-400 dark:text-stone-500 mt-1">{edu.date} — {edu.location}</p>
+                                </li>
+                              ))
+                            ) : (
+                              <li className="text-stone-400 text-sm">—</li>
+                            )}
                           </ul>
                         </div>
                       </div>
@@ -152,22 +193,25 @@ export default function AboutPage() {
                             </h3>
                           </div>
                           <ul className="space-y-6">
-                            <li className="pl-5 border-l border-primary-green/20 dark:border-primary-sage/20">
-                              <p className="font-semibold text-stone-800 dark:text-stone-200">{t('experience.1.company')}</p>
-                              <p className="text-primary-green dark:text-primary-sage text-sm font-medium mt-0.5">{t('experience.1.position')} <span className="text-stone-400 font-normal">({t('experience.1.date')})</span></p>
-                              <p className="text-sm text-stone-500 dark:text-stone-400 mt-1.5 font-light">— {t('experience.1.description')}</p>
-                            </li>
-                            {[2, 3, 4].map((i) => (
-                              <li key={i} className="pl-5 border-l border-primary-green/20 dark:border-primary-sage/20">
-                                <p className="font-semibold text-stone-800 dark:text-stone-200">{t(`experience.${i}.company`)}</p>
-                                <p className="text-primary-green dark:text-primary-sage text-sm font-medium mt-0.5">{t(`experience.${i}.position`)} <span className="text-stone-400 font-normal">({t(`experience.${i}.date`)})</span></p>
-                                <div className="text-sm text-stone-500 dark:text-stone-400 mt-1.5 space-y-1 font-light">
-                                  <p>— {t(`experience.${i}.description.1`)}</p>
-                                  <p>— {t(`experience.${i}.description.2`)}</p>
-                                  <p>— {t(`experience.${i}.description.3`)}</p>
-                                </div>
-                              </li>
-                            ))}
+                            {loading ? (
+                              <li className="text-stone-400 text-sm">{t('common.loading')}</li>
+                            ) : filteredExperiences.length > 0 ? (
+                              filteredExperiences.map((exp) => (
+                                <li key={exp.id} className="pl-5 border-l border-primary-green/20 dark:border-primary-sage/20">
+                                  <p className="font-semibold text-stone-800 dark:text-stone-200">{exp.company}</p>
+                                  <p className="text-primary-green dark:text-primary-sage text-sm font-medium mt-0.5">
+                                    {exp.position} <span className="text-stone-400 font-normal">({exp.date})</span>
+                                  </p>
+                                  <div className="text-sm text-stone-500 dark:text-stone-400 mt-1.5 space-y-1 font-light">
+                                    {exp.descriptionFirst && <p>— {exp.descriptionFirst}</p>}
+                                    {exp.descriptionSecond && <p>— {exp.descriptionSecond}</p>}
+                                    {exp.descriptionThird && <p>— {exp.descriptionThird}</p>}
+                                  </div>
+                                </li>
+                              ))
+                            ) : (
+                              <li className="text-stone-400 text-sm">—</li>
+                            )}
                           </ul>
                         </div>
                       </div>
@@ -195,38 +239,32 @@ export default function AboutPage() {
                             </h3>
                           </div>
                           <ul className="grid grid-cols-1 gap-3">
-                            <li className="flex items-start space-x-3">
-                              <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent-terracotta/50 flex-shrink-0" />
-                              <div>
-                                <p className="font-semibold text-stone-700 dark:text-stone-300 text-sm">Dr. Görkem Gökçelioğlu</p>
-                                <p className="text-sm text-stone-500 dark:text-stone-400 font-light">{t('certification.1.name')} ({t('certification.1.date')})</p>
-                              </div>
-                            </li>
-                            {[2, 3].map((i) => (
-                              <li key={i} className="flex items-start space-x-3">
-                                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent-terracotta/50 flex-shrink-0" />
-                                <p className="text-sm text-stone-500 dark:text-stone-400 font-light">{t(`certification.${i}.name`)} (2024)</p>
-                              </li>
-                            ))}
-                            {[
-                              { i: 4, issuer: true }, { i: 5, issuer: true },
-                              { i: 6, issuer: false }, { i: 7, issuer: false }, { i: 8, issuer: true }
-                            ].map(({ i, issuer }) => (
-                              <li key={i} className="flex items-start space-x-3">
-                                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent-terracotta/50 flex-shrink-0" />
-                                <div>
-                                  {issuer && <p className="font-semibold text-stone-700 dark:text-stone-300 text-sm">{t(`certification.${i}.issuer`)}</p>}
-                                  <p className="text-sm text-stone-500 dark:text-stone-400 font-light">{t(`certification.${i}.name`)} ({i >= 6 ? (i === 7 ? '2022' : i === 8 ? '2021' : '2023') : '2023'})</p>
-                                </div>
-                              </li>
-                            ))}
+                            {loading ? (
+                              <li className="text-stone-400 text-sm">{t('common.loading')}</li>
+                            ) : filteredCertificates.length > 0 ? (
+                              filteredCertificates.map((cert) => (
+                                <li key={cert.id} className="flex items-start space-x-3">
+                                  <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent-terracotta/50 flex-shrink-0" />
+                                  <div>
+                                    {cert.issuer && (
+                                      <p className="font-semibold text-stone-700 dark:text-stone-300 text-sm">{cert.issuer}</p>
+                                    )}
+                                    <p className="text-sm text-stone-500 dark:text-stone-400 font-light">
+                                      {cert.name} ({cert.date})
+                                    </p>
+                                  </div>
+                                </li>
+                              ))
+                            ) : (
+                              <li className="text-stone-400 text-sm">—</li>
+                            )}
                           </ul>
                         </div>
                       </div>
                     </div>
                   </motion.div>
 
-                  {/* Approach */}
+                  {/* Approach - stays static from i18n */}
                   <motion.div variants={itemVariants}>
                     <div className="minimalist-card p-8 bg-primary-green dark:bg-dark-forest border-primary-green dark:border-dark-forest">
                       <div className="flex items-start space-x-5">
@@ -252,6 +290,7 @@ export default function AboutPage() {
                       </div>
                     </div>
                   </motion.div>
+
                   {/* Seminerler */}
                   <motion.div variants={itemVariants}>
                     <div className="minimalist-card p-8 h-full">
@@ -269,12 +308,18 @@ export default function AboutPage() {
                             </h3>
                           </div>
                           <div className="grid grid-cols-1 gap-4">
-                            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                              <div key={i} className="relative pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
-                                <p className="font-semibold text-stone-800 dark:text-stone-200 text-sm leading-snug">{t(`seminar.${i}.name`)}</p>
-                                <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">{t(`seminar.${i}.date`)}</p>
-                              </div>
-                            ))}
+                            {loading ? (
+                              <p className="text-stone-400 text-sm">{t('common.loading')}</p>
+                            ) : filteredSeminars.length > 0 ? (
+                              filteredSeminars.map((sem) => (
+                                <div key={sem.id} className="relative pl-5 border-l border-primary-sage/30 dark:border-primary-sage/20">
+                                  <p className="font-semibold text-stone-800 dark:text-stone-200 text-sm leading-snug">{sem.name}</p>
+                                  <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">{sem.date}</p>
+                                </div>
+                              ))
+                            ) : (
+                              <p className="text-stone-400 text-sm">—</p>
+                            )}
                           </div>
                         </div>
                       </div>

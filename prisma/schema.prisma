@@ -55,3 +55,59 @@ model Faq {
 
   @@map("faqs")
 }
+
+model Experience {
+  id          Int      @id @default(autoincrement())
+  company     String
+  position    String
+  date        String
+  location    String?
+  project     String?
+  descriptionFirst String
+  descriptionSecond String
+  descriptionThird String
+  language    String   @default("tr")
+  orderNum    Int      @default(0) @map("order_num")
+  isActive    Boolean  @default(true) @map("is_active")
+
+  @@map("experiences")
+}
+
+model Certificate {
+  id        Int      @id @default(autoincrement())
+  name      String
+  issuer    String?
+  date      String
+  language  String   @default("tr")
+  orderNum  Int      @default(0) @map("order_num")
+  isActive  Boolean  @default(true) @map("is_active")
+
+  @@map("certificates")
+}
+
+model Seminar {
+  id        Int      @id @default(autoincrement())
+  name      String
+  date      String
+  type      String
+  organization String?
+  duration String?
+  language  String   @default("tr")
+  orderNum  Int      @default(0) @map("order_num")
+  isActive  Boolean  @default(true) @map("is_active")
+
+  @@map("seminars")
+}
+
+model Education {
+  id        Int      @id @default(autoincrement())
+  name      String
+  program   String
+  location  String
+  date      String
+  language  String   @default("tr")
+  orderNum  Int      @default(0) @map("order_num")
+  isActive  Boolean  @default(true) @map("is_active")
+
+  @@map("educations")
+}

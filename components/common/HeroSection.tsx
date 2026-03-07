@@ -6,7 +6,7 @@ import { useTranslation } from '@/lib/i18n';
 import { Phone, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import gunnurteksen from '@/assets/img/gunnurteksen.webp'
+import gunnurteksen from '@/assets/img/gunnurteksen-yeni.webp'
 
 export function HeroSection() {
   const { t, tm } = useTranslation();
@@ -82,7 +82,7 @@ export function HeroSection() {
                 className="px-10 py-7 text-base text-primary-green dark:text-stone-300 hover:bg-accent-sand/60 dark:hover:bg-dark-surface/80 border border-primary-green/20 dark:border-dark-muted/50 rounded-2xl transition-all duration-300 font-medium"
                 asChild
               >
-                <a href="tel:+905356516747">
+                <a href="tel:+905016050697">
                   <Phone className="w-5 h-5 mr-3" />
                   {t('common.call')}
                 </a>

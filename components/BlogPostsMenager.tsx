@@ -84,9 +84,9 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
       setIsCreateOpen(false);
       onRefresh();
     } catch (error) {
-      toast({ 
-        variant: 'destructive', 
-        description: 'Blog yazısı oluşturulurken hata oluştu.' 
+      toast({
+        variant: 'destructive',
+        description: 'Blog yazısı oluşturulurken hata oluştu.'
       });
     } finally {
       setIsCreating(false);
@@ -117,9 +117,9 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
       setSelectedPost(null);
       onRefresh();
     } catch (error) {
-      toast({ 
-        variant: 'destructive', 
-        description: 'Blog yazısı güncellenirken hata oluştu.' 
+      toast({
+        variant: 'destructive',
+        description: 'Blog yazısı güncellenirken hata oluştu.'
       });
     } finally {
       setIsUpdating(false);
@@ -129,9 +129,9 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'published':
-        return <Badge variant="default" className="bg-green-100 text-green-800">Yayında</Badge>;
+        return <Badge variant="default" className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-none">Yayında</Badge>;
       case 'draft':
-        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">Taslak</Badge>;
+        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-none">Taslak</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -156,7 +156,7 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
               Yeni Yazı
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white">
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-dark-card dark:text-stone-100 border-none shadow-2xl">
             <DialogHeader>
               <DialogTitle>Yeni Blog Yazısı Oluştur</DialogTitle>
             </DialogHeader>
@@ -226,11 +226,11 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
                     <FormItem>
                       <FormLabel>Özet (İsteğe bağlı)</FormLabel>
                       <FormControl>
-                        <Textarea 
-                          placeholder="Kısa özet..." 
-                          className="resize-none" 
+                        <Textarea
+                          placeholder="Kısa özet..."
+                          className="resize-none"
                           rows={2}
-                          {...field} 
+                          {...field}
                         />
                       </FormControl>
                       <FormMessage />
@@ -244,11 +244,11 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
                     <FormItem>
                       <FormLabel>İçerik</FormLabel>
                       <FormControl>
-                        <Textarea 
-                          placeholder="Blog yazısı içeriği..." 
-                          className="resize-none" 
+                        <Textarea
+                          placeholder="Blog yazısı içeriği..."
+                          className="resize-none"
                           rows={12}
-                          {...field} 
+                          {...field}
                         />
                       </FormControl>
                       <FormMessage />
@@ -256,9 +256,9 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
                   )}
                 />
                 <div className="flex justify-end gap-2">
-                  <Button 
-                    type="button" 
-                    variant="outline" 
+                  <Button
+                    type="button"
+                    variant="outline"
                     onClick={() => setIsCreateOpen(false)}
                   >
                     İptal
@@ -323,7 +323,7 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
 
       {/* Edit Dialog */}
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-dark-card dark:text-stone-100 border-none shadow-2xl">
           <DialogHeader>
             <DialogTitle>Blog Yazısını Düzenle</DialogTitle>
           </DialogHeader>
@@ -393,11 +393,11 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
                   <FormItem>
                     <FormLabel>Özet (İsteğe bağlı)</FormLabel>
                     <FormControl>
-                      <Textarea 
-                        placeholder="Kısa özet..." 
-                        className="resize-none" 
+                      <Textarea
+                        placeholder="Kısa özet..."
+                        className="resize-none"
                         rows={2}
-                        {...field} 
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -411,11 +411,11 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
                   <FormItem>
                     <FormLabel>İçerik</FormLabel>
                     <FormControl>
-                      <Textarea 
-                        placeholder="Blog yazısı içeriği..." 
-                        className="resize-none" 
+                      <Textarea
+                        placeholder="Blog yazısı içeriği..."
+                        className="resize-none"
                         rows={12}
-                        {...field} 
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -423,9 +423,9 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
                 )}
               />
               <div className="flex justify-end gap-2">
-                <Button 
-                  type="button" 
-                  variant="outline" 
+                <Button
+                  type="button"
+                  variant="outline"
                   onClick={() => setIsEditOpen(false)}
                 >
                   İptal
