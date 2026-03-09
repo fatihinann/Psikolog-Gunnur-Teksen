@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Toaster } from '@/components/ui/toaster';
 import { FileText, MessageSquare, Phone, HelpCircle, LogOut, LayoutDashboard, GraduationCap, Briefcase, Award, Calendar } from 'lucide-react';
-import { BlogPostsManager } from '@/components/BlogPostsMenager';
+import { BlogPostsManager } from '@/components/BlogPostsManager';
 import { ContactSubmissionsManager } from '@/components/ContactSubmissionsManager';
 import { ServicesManager } from '@/components/ServicesManager';
 import { FaqsManager } from '@/components/FaqsManager';

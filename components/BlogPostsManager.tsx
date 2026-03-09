@@ -6,17 +6,26 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogDescription,
+} from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Edit, Eye } from 'lucide-react';
+import { Plus, Edit, Eye, Trash2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import createBlogPostAction from '@/actions/blog/createBlogPost';
 import updateBlogPostAction from '@/actions/blog/updateBlogPost';
+import deleteBlogPostAction from '@/actions/blog/deleteBlogPost';
 
 const blogPostSchema = z.object({
   title: z.string().min(1, 'Başlık gereklidir'),
@@ -48,10 +57,12 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
   const { toast } = useToast();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const createForm = useForm<BlogPostFormData>({
     resolver: zodResolver(blogPostSchema),
@@ -123,6 +134,30 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
       });
     } finally {
       setIsUpdating(false);
+    }
+  };
+
+  const handleDeleteClick = (post: BlogPost) => {
+    setSelectedPost(post);
+    setIsDeleteOpen(true);
+  };
+
+  const handleDelete = async () => {
+    if (!selectedPost) return;
+    try {
+      setIsDeleting(true);
+      await deleteBlogPostAction(selectedPost.id);
+      toast({ description: 'Blog yazısı başarıyla silindi!' });
+      setIsDeleteOpen(false);
+      setSelectedPost(null);
+      onRefresh();
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        description: 'Blog yazısı silinirken hata oluştu.'
+      });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -312,6 +347,14 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDeleteClick(post)}
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/20"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -436,6 +479,28 @@ export function BlogPostsManager({ blogPosts, onRefresh }: BlogPostsManagerProps
               </div>
             </form>
           </Form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+        <DialogContent className="bg-white dark:bg-dark-card border-none">
+          <DialogHeader>
+            <DialogTitle>Emin misiniz?</DialogTitle>
+            <DialogDescription>
+              "{selectedPost?.title}" başlıklı blog yazısı kalıcı olarak silinecektir. Bu işlem geri alınamaz.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDeleteOpen(false)}>İptal</Button>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={isDeleting}
+            >
+              {isDeleting ? 'Siliniyor...' : 'Sil'}
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

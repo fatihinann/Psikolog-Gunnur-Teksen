@@ -3,8 +3,7 @@
 import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth';
 
-interface UpdateFaqData {
-    id: number;
+interface CreateFaqData {
     question: string;
     answer: string;
     language: string;
@@ -12,12 +11,11 @@ interface UpdateFaqData {
     isActive: boolean;
 }
 
-async function updateFaq(data: UpdateFaqData) {
+async function createFaq(data: CreateFaqData) {
     await requireAuth();
 
     try {
-        const faq = await prisma.faq.update({
-            where: { id: data.id },
+        const faq = await prisma.faq.create({
             data: {
                 question: data.question,
                 answer: data.answer,
@@ -28,9 +26,9 @@ async function updateFaq(data: UpdateFaqData) {
         });
         return faq;
     } catch (error) {
-        console.error('Error updating FAQ:', error);
+        console.error('Error creating FAQ:', error);
         throw error;
     }
 }
 
-export default updateFaq;
+export default createFaq;
