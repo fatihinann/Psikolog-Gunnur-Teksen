@@ -70,14 +70,49 @@
 
 /* ── Card style ── */
 .minimalist-card {
-  @apply bg-white/70 backdrop-blur-md border border-stone-200/60 shadow-sm
-         hover:shadow-md transition-all duration-500 rounded-2xl
-         dark:bg-dark-card/80 dark:border-dark-muted/30 dark:shadow-black/20;
+  @apply bg-white/60 backdrop-blur-xl border border-stone-200/40 shadow-sm
+         hover:shadow-lg hover:shadow-stone-200/40 transition-all duration-500 rounded-2xl
+         dark:bg-dark-card/70 dark:border-dark-muted/20 dark:shadow-black/40;
 }
 
-/* ── Arch-shaped photo frame ── */
+/* ── Grain Texture Overlay ── */
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3 Fortive %3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.dark .grain-overlay {
+  opacity: 0.04;
+}
+
+/* ── Arch-shaped photo frame & Organic shapes ── */
 .arch-frame {
   overflow: hidden;
+  border-radius: 10rem 10rem 0 0;
+}
+
+.organic-shape-1 {
+  border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+}
+
+.organic-shape-2 {
+  border-radius: 41% 59% 41% 59% / 65% 36% 64% 35%;
+}
+
+/* ── Enhanced Shadows ── */
+.ambient-shadow {
+  box-shadow: 0 20px 80px -10px rgba(0, 0, 0, 0.08);
+}
+
+.dark .ambient-shadow {
+  box-shadow: 0 20px 80px -10px rgba(0, 0, 0, 0.4);
 }
 
 /* ── Smooth scrolling (unless reduced motion) ── */

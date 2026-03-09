@@ -49,6 +49,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <div className="grain-overlay" />
           {children}
         </ThemeProvider>
       </body>
