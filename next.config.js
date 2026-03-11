@@ -21,13 +21,7 @@ const nextConfig = {
       ],
     },
     experimental: {
-      serverActions: {
-        allowedOrigins: [
-          'localhost:3000',
-          'pskgunnurteksen.vercel.app',
-          ...(process.env.ALLOWED_ORIGINS?.split(',') || [])
-        ],
-      },
+      serverActions: true,
     },
     async redirects() {
       return [

@@ -20,7 +20,7 @@ const contactFormSchema = z.object({
   phone: z.string().min(10, "Telefon numarası en az 10 karakter olmalıdır"),
   birthDate: z.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, "Doğum tarihi GG/AA/YYYY formatında olmalıdır"),
   message: z.string().min(10, "Şikayet özeti en az 10 karakter olmalıdır").max(2000),
-  honeypot: z.string().max(0, { message: "Bot detected" }).optional(),
+  website: z.string().max(0, { message: "Bot detected" }).optional(),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -44,7 +44,7 @@ export function ContactForm() {
       phone: '',
       birthDate: '',
       message: '',
-      honeypot: '',
+      website: '',
     },
   });
 
@@ -93,8 +93,8 @@ export function ContactForm() {
         <p className="text-stone-600 dark:text-stone-400 max-w-sm mb-8">
           Başvurunuz başarıyla iletildi. En kısa sürede sizinle iletişime geçeceğiz.
         </p>
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           onClick={() => setIsSuccess(false)}
           className="rounded-xl px-8 border-primary-sage/30 hover:bg-primary-sage/10"
         >
@@ -108,11 +108,10 @@ export function ContactForm() {
     <div className="minimalist-card p-8 md:p-12 relative overflow-hidden">
       {/* Decorative gradient */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-primary-sage/5 rounded-full -mr-16 -mt-16 pointer-events-none" />
-      
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative z-10">
-        {/* Honeypot field - hidden from users */}
         <div className="hidden">
-           <Input {...register('honeypot')} tabIndex={-1} autoComplete="off" />
+          <Input {...register('website')} tabIndex={-1} autoComplete="off" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -124,9 +123,8 @@ export function ContactForm() {
             <Input
               id="name"
               placeholder="Adınız ve soyadınız"
-              className={`bg-stone-50/50 dark:bg-dark-muted/20 border-stone-200 dark:border-dark-muted/50 rounded-xl focus:ring-primary-sage/20 ${
-                errors.name ? 'border-red-400' : ''
-              }`}
+              className={`bg-stone-50/50 dark:bg-dark-muted/20 border-stone-200 dark:border-dark-muted/50 rounded-xl focus:ring-primary-sage/20 ${errors.name ? 'border-red-400' : ''
+                }`}
               {...register('name')}
             />
             {errors.name && (
@@ -144,9 +142,8 @@ export function ContactForm() {
             <Input
               id="birthDate"
               placeholder="GG/AA/YYYY"
-              className={`bg-stone-50/50 dark:bg-dark-muted/20 border-stone-200 dark:border-dark-muted/50 rounded-xl focus:ring-primary-sage/20 ${
-                errors.birthDate ? 'border-red-400' : ''
-              }`}
+              className={`bg-stone-50/50 dark:bg-dark-muted/20 border-stone-200 dark:border-dark-muted/50 rounded-xl focus:ring-primary-sage/20 ${errors.birthDate ? 'border-red-400' : ''
+                }`}
               {...register('birthDate')}
             />
             {errors.birthDate && (
@@ -165,9 +162,8 @@ export function ContactForm() {
               id="email"
               type="email"
               placeholder="ornek@mail.com"
-              className={`bg-stone-50/50 dark:bg-dark-muted/20 border-stone-200 dark:border-dark-muted/50 rounded-xl focus:ring-primary-sage/20 ${
-                errors.email ? 'border-red-400' : ''
-              }`}
+              className={`bg-stone-50/50 dark:bg-dark-muted/20 border-stone-200 dark:border-dark-muted/50 rounded-xl focus:ring-primary-sage/20 ${errors.email ? 'border-red-400' : ''
+                }`}
               {...register('email')}
             />
             {errors.email && (
@@ -186,9 +182,8 @@ export function ContactForm() {
               id="phone"
               type="tel"
               placeholder="05XX XXX XX XX"
-              className={`bg-stone-50/50 dark:bg-dark-muted/20 border-stone-200 dark:border-dark-muted/50 rounded-xl focus:ring-primary-sage/20 ${
-                errors.phone ? 'border-red-400' : ''
-              }`}
+              className={`bg-stone-50/50 dark:bg-dark-muted/20 border-stone-200 dark:border-dark-muted/50 rounded-xl focus:ring-primary-sage/20 ${errors.phone ? 'border-red-400' : ''
+                }`}
               {...register('phone')}
             />
             {errors.phone && (
@@ -207,9 +202,8 @@ export function ContactForm() {
           <Textarea
             id="message"
             placeholder="Lütfen şikayetinizden kısaca bahseder misiniz?"
-            className={`min-h-[150px] bg-stone-50/50 dark:bg-dark-muted/20 border-stone-200 dark:border-dark-muted/50 rounded-xl focus:ring-primary-sage/20 resize-none ${
-              errors.message ? 'border-red-400' : ''
-            }`}
+            className={`min-h-[150px] bg-stone-50/50 dark:bg-dark-muted/20 border-stone-200 dark:border-dark-muted/50 rounded-xl focus:ring-primary-sage/20 resize-none ${errors.message ? 'border-red-400' : ''
+              }`}
             {...register('message')}
           />
           {errors.message && (

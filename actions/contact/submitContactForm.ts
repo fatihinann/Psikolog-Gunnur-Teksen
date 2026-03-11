@@ -4,7 +4,6 @@ import { prisma } from '@/lib/prisma';
 import { contactRateLimit } from '@/lib/ratelimit';
 import { Resend } from 'resend';
 import { z } from 'zod';
-import DOMPurify from 'isomorphic-dompurify';
 import { headers } from 'next/headers';
 
 const contactFormSchema = z.object({
@@ -13,22 +12,33 @@ const contactFormSchema = z.object({
   phone: z.string().min(10, "Telefon numarası en az 10 karakter olmalıdır"),
   birthDate: z.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, "Doğum tarihi GG/AA/YYYY formatında olmalıdır"),
   message: z.string().min(10, "Şikayet özeti en az 10 karakter olmalıdır").max(2000),
-  honeypot: z.string().max(0, { message: "Bot detected" }).optional(),
+  website: z.string().max(0, { message: "Bot detected" }).optional(),
 });
 
+function sanitizeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 export async function submitContactForm(formData: z.infer<typeof contactFormSchema>) {
-  console.log("Starting contact form submission...");
+  console.log("Starting contact form submission process...");
+  console.log("Form data received (keys):", Object.keys(formData));
 
   try {
-    // 1. Honeypot check
-    if (formData.honeypot) {
-      console.warn("Honeypot triggered");
+    // 1. Honeypot check (renamed to website)
+    if (formData.website) {
+      console.warn("Honeypot triggered (website field filled):", formData.website);
       return { success: false, message: "Geçersiz istek" };
     }
 
     // 2. Validation
     const validatedFields = contactFormSchema.safeParse(formData);
     if (!validatedFields.success) {
+      console.error("Validation failed:", validatedFields.error.format());
       return {
         success: false,
         message: "Lütfen tüm alanları doğru doldurduğunuzdan emin olun."
@@ -38,18 +48,20 @@ export async function submitContactForm(formData: z.infer<typeof contactFormSche
     const { name, email, phone, birthDate, message } = validatedFields.data;
 
     // 3. Sanitization
-    const sanitizedName = DOMPurify.sanitize(name);
-    const sanitizedEmail = DOMPurify.sanitize(email);
-    const sanitizedPhone = DOMPurify.sanitize(phone);
-    const sanitizedBirthDate = DOMPurify.sanitize(birthDate);
-    const sanitizedMessage = DOMPurify.sanitize(message);
+    const sanitizedName = sanitizeHtml(name);
+    const sanitizedEmail = sanitizeHtml(email);
+    const sanitizedPhone = sanitizeHtml(phone);
+    const sanitizedBirthDate = sanitizeHtml(birthDate);
+    const sanitizedMessage = sanitizeHtml(message);
 
     // 4. Rate limiting (Optional/Resilient)
     try {
       if (contactRateLimit) {
         const ip = headers().get("x-forwarded-for") ?? "127.0.0.1";
+        console.log("Checking rate limit for IP:", ip);
         const { success: limitReached } = await contactRateLimit.limit(ip);
         if (!limitReached) {
+          console.warn("Rate limit exceeded for IP:", ip);
           return {
             success: false,
             message: "Çok fazla istek gönderdiniz. Lütfen bir saat sonra tekrar deneyin."
@@ -63,6 +75,7 @@ export async function submitContactForm(formData: z.infer<typeof contactFormSche
     // 5. Database Save (Critical)
     let submissionId;
     try {
+      console.log("Saving submission to database...");
       const submission = await prisma.contactSubmission.create({
         data: {
           name: sanitizedName,
@@ -74,15 +87,16 @@ export async function submitContactForm(formData: z.infer<typeof contactFormSche
         },
       });
       submissionId = submission.id;
-      console.log("Submission saved to database:", submissionId);
+      console.log("Submission successfully saved. ID:", submissionId);
     } catch (dbError) {
-      console.error("Database save error:", dbError);
+      console.error("Database save error details:", dbError);
       throw new Error("Veritabanı kaydı sırasında bir hata oluştu.");
     }
 
     // 6. Send Email via Resend (Optional/Non-blocking)
     if (process.env.RESEND_API_KEY) {
       try {
+        console.log("Attempting to send email via Resend...");
         const resend = new Resend(process.env.RESEND_API_KEY);
         const { error: emailError } = await resend.emails.send({
           from: 'Günnur Teksen Web <onboarding@resend.dev>',
@@ -95,8 +109,8 @@ export async function submitContactForm(formData: z.infer<typeof contactFormSche
             <p><strong>Telefon:</strong> ${sanitizedPhone}</p>
             <p><strong>Doğum Tarihi:</strong> ${sanitizedBirthDate}</p>
             <p><strong>Şikayet Özeti:</strong></p>
-            <div style="background: #f4f4f4; padding: 15px; border-radius: 5px;">
-              ${sanitizedMessage.replace(/\n/g, '<br>')}
+            <div style="background: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap;">
+              ${sanitizedMessage}
             </div>
             <br>
             <p>Bu mesaj web sitenizdeki iletişim formundan gönderilmiştir.</p>
@@ -105,6 +119,8 @@ export async function submitContactForm(formData: z.infer<typeof contactFormSche
 
         if (emailError) {
           console.error("Resend email sending error:", emailError);
+        } else {
+          console.log("Email sent successfully.");
         }
       } catch (rsError) {
         console.error("Resend initialization/sending error:", rsError);
