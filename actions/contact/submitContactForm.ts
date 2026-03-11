@@ -18,7 +18,7 @@ const contactFormSchema = z.object({
 
 export async function submitContactForm(formData: z.infer<typeof contactFormSchema>) {
   console.log("Starting contact form submission...");
-  
+
   try {
     // 1. Honeypot check
     if (formData.honeypot) {
@@ -86,7 +86,7 @@ export async function submitContactForm(formData: z.infer<typeof contactFormSche
         const resend = new Resend(process.env.RESEND_API_KEY);
         const { error: emailError } = await resend.emails.send({
           from: 'Günnur Teksen Web <onboarding@resend.dev>',
-          to: 'fatihinan3734@gmail.com',
+          to: 'fatihinan3437@gmail.com',
           subject: `Yeni Danışan İletişimi: ${sanitizedName}`,
           html: `
             <h2>Yeni Bir İletişim Talebi</h2>
