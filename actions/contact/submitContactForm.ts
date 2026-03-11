@@ -70,7 +70,7 @@ export async function submitContactForm(formData: z.infer<typeof contactFormSche
     // 6. Send Email via Resend
     const { error } = await resend.emails.send({
       from: 'Günnur Teksen Web <onboarding@resend.dev>', // Should be a verified domain in production
-      to: ['fatihinan3734@gmail.com'],
+      to: 'fatihinan3734@gmail.com',
       subject: `Yeni Danışan İletişimi: ${sanitizedName}`,
       html: `
         <h2>Yeni Bir İletişim Talebi</h2>
