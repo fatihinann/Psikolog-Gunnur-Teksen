@@ -35,6 +35,7 @@ model ContactSubmission {
   name      String
   email     String
   phone     String?
+  birthDate String?  @map("birth_date")
   message   String
   status    String   @default("new")
   createdAt DateTime @default(now()) @map("created_at")
