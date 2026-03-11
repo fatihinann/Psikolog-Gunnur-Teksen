@@ -11,7 +11,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useTranslation } from '@/lib/i18n';
 import { Loader2, CheckCircle2, AlertCircle, Send } from 'lucide-react';
-import { submitContactForm } from '@/actions/contact/submitContactForm';
 import { useToast } from '@/hooks/use-toast';
 
 const contactFormSchema = z.object({
@@ -51,19 +50,26 @@ export function ContactForm() {
   const onSubmit = async (data: ContactFormValues) => {
     setIsSubmitting(true);
     try {
-      const result = await submitContactForm(data);
-      if (result.success) {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        const payload = await res.json().catch(() => null);
         setIsSuccess(true);
         reset();
         toast({
           title: "Başarılı",
-          description: result.message,
+          description: payload?.message ?? "Mesajınız başarıyla gönderildi.",
         });
       } else {
+        const payload = await res.json().catch(() => null);
         toast({
           variant: "destructive",
           title: "Hata",
-          description: result.message,
+          description: payload?.message ?? "Mesaj gönderilemedi. Lütfen tekrar deneyin.",
         });
       }
     } catch (error) {
