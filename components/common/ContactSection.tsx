@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
 import { Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { ContactForm } from './ContactForm';
 
 export function ContactSection() {
   const { t } = useTranslation();
@@ -49,65 +50,71 @@ export function ContactSection() {
             </p>
           </motion.div>
 
-          {/* Horizontal contact row */}
-          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/10 dark:bg-dark-muted/30 rounded-2xl overflow-hidden mb-10">
-            <a
-              href="tel:+905016050697"
-              className="group flex flex-col items-center text-center p-8 bg-white/5 dark:bg-dark-card/60 hover:bg-white/10 dark:hover:bg-dark-muted/60 transition-all duration-300"
-            >
-              <div className="w-12 h-12 rounded-full bg-white/10 group-hover:bg-accent-terracotta/40 flex items-center justify-center mb-4 transition-all duration-300">
-                <Phone className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
-              </div>
-              <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-semibold mb-2">{t('contact.phone')}</p>
-              <p className="text-white font-semibold text-lg group-hover:text-accent-terracotta transition-colors duration-300">+90 501 605 06 97</p>
-            </a>
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+            {/* Contact Info */}
+            <div className="lg:col-span-2 space-y-10">
+              <motion.div variants={itemVariants} className="grid grid-cols-1 gap-4">
+                <a
+                  href="tel:+905016050697"
+                  className="group flex items-center gap-6 p-6 bg-white/5 dark:bg-dark-card/60 hover:bg-white/10 dark:hover:bg-dark-muted/60 rounded-2xl transition-all duration-300"
+                >
+                  <div className="w-12 h-12 rounded-full bg-white/10 group-hover:bg-accent-terracotta/40 flex items-center justify-center transition-all duration-300">
+                    <Phone className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-semibold mb-1">{t('contact.phone')}</p>
+                    <p className="text-white font-semibold group-hover:text-accent-terracotta transition-colors duration-300">+90 501 605 06 97</p>
+                  </div>
+                </a>
 
-            <a
-              href="mailto:pskgunnurteksen@gmail.com"
-              className="group flex flex-col items-center text-center p-8 bg-white/5 dark:bg-dark-card/60 hover:bg-white/10 dark:hover:bg-dark-muted/60 transition-all duration-300"
-            >
-              <div className="w-12 h-12 rounded-full bg-white/10 group-hover:bg-primary-sage/30 flex items-center justify-center mb-4 transition-all duration-300">
-                <Mail className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
-              </div>
-              <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-semibold mb-2">{t('contact.email')}</p>
-              <p className="text-white font-medium text-sm group-hover:text-primary-sage transition-colors duration-300">pskgunnurteksen@gmail.com</p>
-            </a>
+                <a
+                  href="mailto:pskgunnurteksen@gmail.com"
+                  className="group flex items-center gap-6 p-6 bg-white/5 dark:bg-dark-card/60 hover:bg-white/10 dark:hover:bg-dark-muted/60 rounded-2xl transition-all duration-300"
+                >
+                  <div className="w-12 h-12 rounded-full bg-white/10 group-hover:bg-primary-sage/30 flex items-center justify-center transition-all duration-300">
+                    <Mail className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-semibold mb-1">{t('contact.email')}</p>
+                    <p className="text-white font-medium text-sm group-hover:text-primary-sage transition-colors duration-300">pskgunnurteksen@gmail.com</p>
+                  </div>
+                </a>
 
-            <a href="https://maps.app.goo.gl/vrpvGciNr7rim3K79">
-              <div className="flex flex-col items-center text-center p-8 bg-white/5 dark:bg-dark-card/60">
-                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-4">
-                  <MapPin className="w-5 h-5 text-white/70" />
+                <a 
+                  href="https://maps.app.goo.gl/vrpvGciNr7rim3K79"
+                  className="group flex items-center gap-6 p-6 bg-white/5 dark:bg-dark-card/60 hover:bg-white/10 dark:hover:bg-dark-muted/60 rounded-2xl transition-all duration-300"
+                >
+                  <div className="w-12 h-12 rounded-full bg-white/10 group-hover:bg-white/20 flex items-center justify-center transition-all duration-300">
+                    <MapPin className="w-5 h-5 text-white/70" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-semibold mb-1">{t('contact.address')}</p>
+                    <p className="text-white/70 font-light text-sm leading-relaxed">{t('common.address')}</p>
+                  </div>
+                </a>
+              </motion.div>
+
+              <motion.div variants={itemVariants} className="space-y-4 px-2">
+                <div className="flex flex-wrap gap-6 text-sm">
+                  <div className="flex items-center space-x-2 text-white/60">
+                    <div className="w-1 h-1 rounded-full bg-accent-terracotta/60" />
+                    <span><span className="text-white/80 font-medium">{t('session.duration')}:</span> 50 {t('common.minute')}</span>
+                  </div>
+                  <div className="flex items-center space-x-2 text-white/60">
+                    <div className="w-1 h-1 rounded-full bg-accent-terracotta/60" />
+                    <span><span className="text-white/80 font-medium">{t('session.payment')}:</span> {t('session.payment.description')}</span>
+                  </div>
                 </div>
-                <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-semibold mb-2">{t('contact.address')}</p>
-                <p className="text-white/70 font-light text-sm leading-relaxed">{t('common.address')}</p>
-              </div>
-            </a>
-
-          </motion.div>
-
-          {/* Session info + CTA inline */}
-          <motion.div variants={itemVariants} className="flex flex-col md:flex-row items-center justify-between gap-6 px-2">
-            <div className="flex flex-wrap gap-6 text-sm">
-              <div className="flex items-center space-x-2 text-white/60">
-                <div className="w-1 h-1 rounded-full bg-accent-terracotta/60" />
-                <span><span className="text-white/80 font-medium">{t('session.duration')}:</span> 50 {t('common.minute')}</span>
-              </div>
-              <div className="flex items-center space-x-2 text-white/60">
-                <div className="w-1 h-1 rounded-full bg-accent-terracotta/60" />
-                <span><span className="text-white/80 font-medium">{t('session.payment')}:</span> {t('session.payment.description')}</span>
-              </div>
+              </motion.div>
             </div>
 
-            <Button
-              className="flex-shrink-0 bg-white/10 border border-white/20 hover:bg-white hover:text-primary-green text-white rounded-xl px-8 py-6 font-medium transition-all duration-300 text-sm whitespace-nowrap"
-              asChild
-            >
-              <Link href="/contact">
-                {t('common.appointment')}
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            </Button>
-          </motion.div>
+            {/* Form */}
+            <div className="lg:col-span-3">
+              <motion.div variants={itemVariants}>
+                <ContactForm />
+              </motion.div>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>

@@ -103,12 +103,12 @@ export function HeroSection() {
 
             <div className="relative z-10 w-full max-w-sm mx-auto">
               {/* Arch frame container */}
-              <div className="arch-frame w-full aspect-[3/4] shadow-2xl shadow-primary-green/15 dark:shadow-black/50 border-4 border-white/40 dark:border-dark-muted/30">
+              <div className="w-full aspect-[3/4] shadow-2xl shadow-primary-green/15 dark:shadow-black/50 rounded-t-xl rounded-bl-[10%] border-4 border-white/40 dark:border-dark-muted/30">
                 <Image
                   src={gunnurteksen}
                   alt="Psk. Günnur Tekşen"
                   fill
-                  className="object-cover hover:scale-105 transition-transform duration-700"
+                  className="object-cover hover:scale-105 transition-transform duration-700 rounded-t-xl rounded-bl-[10%]"
                   priority
                 />
               </div>

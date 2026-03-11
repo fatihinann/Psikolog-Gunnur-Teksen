@@ -264,9 +264,11 @@ const getPasswordHash = () => {
   return cleanHash;
 };
 
-const ADMIN_CREDENTIALS = {
-  username: process.env.ADMIN_USERNAME || 'gunnur',
-  passwordHash: getPasswordHash()
+const getAdminCredentials = () => {
+  return {
+    username: process.env.ADMIN_USERNAME || 'gunnur',
+    passwordHash: getPasswordHash()
+  };
 };
 
 export async function POST(request: NextRequest) {
@@ -312,8 +314,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const credentials = getAdminCredentials();
+
     // Username kontrolü - hızlı başarısızlık
-    const isUsernameValid = username === ADMIN_CREDENTIALS.username;
+    const isUsernameValid = username === credentials.username;
     if (!isUsernameValid) {
       // Username yanlışsa şifre kontrolü yapmaya gerek yok
       await recordFailedAttempt(clientIP);
@@ -329,7 +333,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Şifre kontrolü
-    const isPasswordValid = await bcrypt.compare(password, ADMIN_CREDENTIALS.passwordHash);
+    const isPasswordValid = await bcrypt.compare(password, credentials.passwordHash);
     const remainingAttempts = await getRemainingAttempts(clientIP);
 
     if (isUsernameValid && isPasswordValid) {

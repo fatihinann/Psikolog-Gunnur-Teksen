@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from '@/lib/i18n';
 import { Phone, Mail, MapPin, Clock, MessageCircle, Calendar } from 'lucide-react';
 import Link from 'next/link';
+import { ContactForm } from '@/components/common/ContactForm';
 
 export default function ContactPage() {
   const { t } = useTranslation();
@@ -103,68 +104,76 @@ export default function ContactPage() {
                 })}
               </div>
 
-              {/* Session Info + CTA */}
-              <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {/* Session Details */}
-                <div className="minimalist-card p-8">
-                  <div className="flex items-center space-x-4 mb-6">
-                    <div className="p-3 rounded-2xl bg-primary-sage/10 dark:bg-dark-forest/40 border border-primary-sage/15 dark:border-primary-sage/20">
-                      <Clock className="w-6 h-6 text-primary-sage" />
-                    </div>
-                    <h3 className="text-xl font-serif font-semibold text-stone-900 dark:text-stone-100">
-                      {t('session.informations.title')}
-                    </h3>
-                  </div>
-                  <div className="space-y-4">
-                    {[
-                      { label: t('session.duration'), value: `50 ${t('min')}` },
-                      { label: t('session.payment'), value: t('session.payment.description') },
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-start space-x-3">
-                        <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary-sage/60 flex-shrink-0" />
-                        <p className="text-sm text-stone-600 dark:text-stone-400 font-light">
-                          <span className="font-semibold text-stone-700 dark:text-stone-300">{item.label}:</span>{' '}
-                          {item.value}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              {/* Contact Form & Information */}
+              <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                {/* Form Column */}
+                <motion.div variants={itemVariants} className="lg:col-span-3">
+                  <ContactForm />
+                </motion.div>
 
-                {/* CTA Box */}
-                <div className="minimalist-card p-8 bg-primary-green dark:bg-dark-forest border-primary-green dark:border-dark-forest flex flex-col justify-center">
-                  <div className="flex items-center space-x-3 mb-5">
-                    <div className="p-3 rounded-2xl bg-white/10">
-                      <MessageCircle className="w-6 h-6 text-accent-terracotta" />
+                {/* Info Column */}
+                <motion.div variants={itemVariants} className="lg:col-span-2 space-y-6">
+                  {/* Session Details */}
+                  <div className="minimalist-card p-8 h-fit">
+                    <div className="flex items-center space-x-4 mb-6">
+                      <div className="p-3 rounded-2xl bg-primary-sage/10 dark:bg-dark-forest/40 border border-primary-sage/15 dark:border-primary-sage/20">
+                        <Clock className="w-6 h-6 text-primary-sage" />
+                      </div>
+                      <h3 className="text-xl font-serif font-semibold text-stone-900 dark:text-stone-100">
+                        {t('session.informations.title')}
+                      </h3>
                     </div>
-                    <h3 className="text-xl font-serif font-semibold text-white">
-                      {t('about.cta.title')}
-                    </h3>
+                    <div className="space-y-4">
+                      {[
+                        { label: t('session.duration'), value: `50 ${t('min')}` },
+                        { label: t('session.payment'), value: t('session.payment.description') },
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-start space-x-3">
+                          <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary-sage/60 flex-shrink-0" />
+                          <p className="text-sm text-stone-600 dark:text-stone-400 font-light">
+                            <span className="font-semibold text-stone-700 dark:text-stone-300">{item.label}:</span>{' '}
+                            {item.value}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <p className="text-white/70 text-sm font-light leading-relaxed mb-6">
-                    {t('about.cta.desc')}
-                  </p>
-                  <div className="flex flex-col gap-3">
-                    <Button
-                      className="bg-white/15 hover:bg-white/25 text-white border border-white/20 rounded-xl w-full font-medium transition-all duration-300"
-                      asChild
-                    >
-                      <a href="tel:+905016050697">
-                        <Phone className="w-4 h-4 mr-2" />
-                        {t('common.call')}
-                      </a>
-                    </Button>
-                    <Button
-                      className="bg-accent-terracotta/80 hover:bg-accent-terracotta text-white rounded-xl w-full font-medium transition-all duration-300"
-                      asChild
-                    >
-                      <a href="https://www.instagram.com/gunnurteksenn/" target="_blank">
-                        Instagram
-                      </a>
-                    </Button>
+
+                  {/* WhatsApp/Call CTA */}
+                  <div className="minimalist-card p-8 bg-primary-green dark:bg-dark-forest border-primary-green dark:border-dark-forest flex flex-col justify-center">
+                    <div className="flex items-center space-x-3 mb-5">
+                      <div className="p-3 rounded-2xl bg-white/10">
+                        <MessageCircle className="w-6 h-6 text-accent-terracotta" />
+                      </div>
+                      <h3 className="text-xl font-serif font-semibold text-white">
+                        Hızlı İletişim
+                      </h3>
+                    </div>
+                    <p className="text-white/70 text-sm font-light leading-relaxed mb-6">
+                      Sorularınız için WhatsApp üzerinden veya telefonla bana ulaşabilirsiniz.
+                    </p>
+                    <div className="flex flex-col gap-3">
+                      <Button
+                        className="bg-white/15 hover:bg-white/25 text-white border border-white/20 rounded-xl w-full font-medium transition-all duration-300"
+                        asChild
+                      >
+                        <a href="tel:+905016050697">
+                          <Phone className="w-4 h-4 mr-2" />
+                          Hemen Ara
+                        </a>
+                      </Button>
+                      <Button
+                        className="bg-accent-terracotta/80 hover:bg-accent-terracotta text-white rounded-xl w-full font-medium transition-all duration-300"
+                        asChild
+                      >
+                        <a href="https://wa.me/905016050697" target="_blank">
+                           WhatsApp Mesaj
+                        </a>
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </div>
             </motion.div>
           </div>
         </section>
