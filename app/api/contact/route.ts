@@ -94,16 +94,14 @@ export async function POST(request: Request) {
     // Email via Resend
     try {
       const apiKey = process.env.RESEND_API_KEY;
-      const to = process.env.CONTACT_TO_EMAIL || 'fatihinan3437@gmail.com';
-      const from = process.env.CONTACT_FROM_EMAIL || 'onboarding@resend.dev';
 
-      console.log("Attempting to send email via Resend:", { hasApiKey: !!apiKey, to, from });
+      console.log("Attempting to send email via Resend:", { hasApiKey: !!apiKey });
 
       if (apiKey) {
         const resend = new Resend(apiKey);
         const { data: emailData, error: emailError } = await resend.emails.send({
-          from: `Günnur Tekşen Web <${from}>`,
-          to,
+          from: 'Günnur Tekşen Web <onboarding@resend.dev>', // Verilen örnek onboarding adresi, kullanıcı domain'ini ekleyince güncellemeli
+          to: 'fatihinan3437@gmail.com',
           subject: `Yeni Danışan İletişimi: ${sanitizedName}`,
           replyTo: sanitizedEmail,
           html: `
