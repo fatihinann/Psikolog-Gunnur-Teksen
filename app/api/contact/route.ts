@@ -89,6 +89,8 @@ export async function POST(request: Request) {
 
     logger.info('Contact form submission created', { submissionId: submission.id, email: sanitizedEmail });
 
+    let emailSent = false;
+
     // Email via Resend (best-effort)
     try {
       const apiKey = process.env.RESEND_API_KEY
@@ -96,7 +98,7 @@ export async function POST(request: Request) {
       const from = process.env.CONTACT_FROM_EMAIL
       if (apiKey && to && from) {
         const resend = new Resend(apiKey)
-        const { error: emailError } = await resend.emails.send({
+        const { data: emailData, error: emailError } = await resend.emails.send({
           from,
           to,
           subject: `Yeni Danışan İletişimi: ${sanitizedName}`,
@@ -116,6 +118,9 @@ export async function POST(request: Request) {
         })
         if (emailError) {
           logger.error('Resend email sending error', new Error(emailError.message))
+        } else {
+          emailSent = true;
+          logger.info('Resend email sent', { submissionId: submission.id, emailId: emailData?.id })
         }
       } else {
         logger.warn('Resend env missing; skipping email', {
@@ -131,10 +136,11 @@ export async function POST(request: Request) {
       )
     }
 
-    return Response.json(
-      { id: submission.id, message: 'Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapılacaktır.' },
-      { status: 201 }
-    )
+    return Response.json({
+      id: submission.id,
+      message: 'Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapılacaktır.',
+      emailSent,
+    }, { status: 201 })
   } catch (error) {
     logger.error('Failed to process contact form submission', error instanceof Error ? error : new Error(String(error)));
     return Response.json(
