@@ -76,7 +76,7 @@ export async function POST(request: Request) {
     const sanitizedBirthDate = birthDate ? escapeHtml(birthDate.trim()) : null
     const sanitizedMessage = escapeHtml(message.trim())
 
-    const submission = await prisma.contactSubmission.create({ 
+    const submission = await prisma.contactSubmission.create({
       data: {
         name: sanitizedName,
         email: sanitizedEmail,
@@ -96,13 +96,13 @@ export async function POST(request: Request) {
       const apiKey = process.env.RESEND_API_KEY;
       const to = process.env.CONTACT_TO_EMAIL || 'fatihinan3437@gmail.com';
       const from = process.env.CONTACT_FROM_EMAIL || 'onboarding@resend.dev';
-      
+
       console.log("Attempting to send email via Resend:", { hasApiKey: !!apiKey, to, from });
-      
+
       if (apiKey) {
         const resend = new Resend(apiKey);
         const { data: emailData, error: emailError } = await resend.emails.send({
-          from: `Günnur Tekşen Web <${from}>`,
+          from: from,
           to,
           subject: `Yeni Danışan İletişimi: ${sanitizedName}`,
           replyTo: sanitizedEmail,
@@ -120,7 +120,7 @@ export async function POST(request: Request) {
             <p>Bu mesaj web sitenizdeki iletişim formundan gönderilmiştir.</p>
           `,
         });
-        
+
         if (emailError) {
           console.error("Resend email sending error:", emailError);
           logger.error('Resend email sending error', new Error(emailError.message));
