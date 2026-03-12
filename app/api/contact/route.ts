@@ -102,7 +102,7 @@ export async function POST(request: Request) {
       if (apiKey) {
         const resend = new Resend(apiKey);
         const { data: emailData, error: emailError } = await resend.emails.send({
-          from: from,
+          from: `Günnur Tekşen Web <${from}>`,
           to,
           subject: `Yeni Danışan İletişimi: ${sanitizedName}`,
           replyTo: sanitizedEmail,
