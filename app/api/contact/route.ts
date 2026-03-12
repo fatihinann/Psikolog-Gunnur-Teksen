@@ -91,17 +91,21 @@ export async function POST(request: Request) {
 
     let emailSent = false;
 
-    // Email via Resend (best-effort)
+    // Email via Resend
     try {
-      const apiKey = process.env.RESEND_API_KEY
-      const to = process.env.CONTACT_TO_EMAIL
-      const from = process.env.CONTACT_FROM_EMAIL
-      if (apiKey && to && from) {
-        const resend = new Resend(apiKey)
+      const apiKey = process.env.RESEND_API_KEY;
+      const to = process.env.CONTACT_TO_EMAIL || 'fatihinan3437@gmail.com';
+      const from = process.env.CONTACT_FROM_EMAIL || 'onboarding@resend.dev';
+      
+      console.log("Attempting to send email via Resend:", { hasApiKey: !!apiKey, to, from });
+      
+      if (apiKey) {
+        const resend = new Resend(apiKey);
         const { data: emailData, error: emailError } = await resend.emails.send({
-          from,
+          from: `Günnur Tekşen Web <${from}>`,
           to,
           subject: `Yeni Danışan İletişimi: ${sanitizedName}`,
+          replyTo: sanitizedEmail,
           html: `
             <h2>Yeni Bir İletişim Talebi</h2>
             <p><strong>Ad Soyad:</strong> ${sanitizedName}</p>
@@ -115,25 +119,23 @@ export async function POST(request: Request) {
             <br>
             <p>Bu mesaj web sitenizdeki iletişim formundan gönderilmiştir.</p>
           `,
-        })
+        });
+        
         if (emailError) {
-          logger.error('Resend email sending error', new Error(emailError.message))
+          console.error("Resend email sending error:", emailError);
+          logger.error('Resend email sending error', new Error(emailError.message));
         } else {
           emailSent = true;
-          logger.info('Resend email sent', { submissionId: submission.id, emailId: emailData?.id })
+          console.log("Email sent successfully. ID:", emailData?.id);
+          logger.info('Resend email sent', { submissionId: submission.id, emailId: emailData?.id });
         }
       } else {
-        logger.warn('Resend env missing; skipping email', {
-          hasApiKey: Boolean(apiKey),
-          hasTo: Boolean(to),
-          hasFrom: Boolean(from),
-        })
+        console.warn('Resend env missing; skipping email');
+        logger.warn('Resend env missing; skipping email');
       }
     } catch (emailError) {
-      logger.error(
-        'Resend email failure (skipping)',
-        emailError instanceof Error ? emailError : new Error(String(emailError))
-      )
+      console.error("Resend email failure (skipping):", emailError);
+      logger.error('Resend email failure (skipping)', emailError instanceof Error ? emailError : new Error(String(emailError)));
     }
 
     return Response.json({
