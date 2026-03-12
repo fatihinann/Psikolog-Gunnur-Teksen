@@ -101,7 +101,7 @@ export async function POST(request: Request) {
         const resend = new Resend(apiKey);
         const { data: emailData, error: emailError } = await resend.emails.send({
           from: 'Günnur Tekşen Web <onboarding@resend.dev>', // Verilen örnek onboarding adresi, kullanıcı domain'ini ekleyince güncellemeli
-          to: 'pskgunnurteksen@gmail.com',
+          to: 'fatihinan3734@gmail.com',
           subject: `Yeni Danışan İletişimi: ${sanitizedName}`,
           replyTo: sanitizedEmail,
           html: `
