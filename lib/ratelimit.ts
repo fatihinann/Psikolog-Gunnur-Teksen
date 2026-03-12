@@ -5,7 +5,7 @@ import { Redis } from "@upstash/redis";
 export const contactRateLimit = process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
   ? new Ratelimit({
     redis: Redis.fromEnv(),
-    limiter: Ratelimit.slidingWindow(10, "1 h"),
+    limiter: Ratelimit.slidingWindow(20, "1 h"),
     analytics: true,
     prefix: "@upstash/ratelimit",
   })
