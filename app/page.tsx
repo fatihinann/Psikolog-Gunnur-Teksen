@@ -9,6 +9,7 @@ import { ServicesSection } from '@/components/common/ServicesSection';
 import { BlogSection } from '@/components/common/BlogSection';
 import { FAQSection } from '@/components/common/FAQSection';
 import { ContactSection } from '@/components/common/ContactSection';
+import { OfficeSection } from '@/components/common/OfficeSection';
 
 export default function HomePage() {
   return (
@@ -18,6 +19,7 @@ export default function HomePage() {
       <main>
         <HeroSection />
         <AboutSection />
+        <OfficeSection />
         <ServicesSection />
         <BlogSection />
         <FAQSection />

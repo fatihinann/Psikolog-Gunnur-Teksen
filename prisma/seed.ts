@@ -5,6 +5,20 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("🌱 Seeding database...");
 
+  // Clear existing data
+  console.log("🧹 Cleaning up existing data...");
+  await prisma.education.deleteMany({});
+  await prisma.experience.deleteMany({});
+  await prisma.certificate.deleteMany({});
+  await prisma.seminar.deleteMany({});
+  await prisma.blogPost.deleteMany({});
+  await prisma.service.deleteMany({});
+  await prisma.faq.deleteMany({});
+  // We'll leave contactSubmission if there's real data, but the seed adds 3.
+  // Given there are 14 records, we'll keep them for safety and just add more from the seed.
+  // await prisma.contactSubmission.deleteMany({});
+
+
   // Blog Posts
   const blogPosts = await prisma.blogPost.createMany({
     data: [
@@ -169,6 +183,7 @@ async function main() {
   });
 
   // Educations
+  await prisma.education.deleteMany({});
   const educations = await prisma.education.createMany({
     data: [
       {

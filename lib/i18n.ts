@@ -82,6 +82,7 @@ const translations: Translations = {
     'about.approach.desc.2': 'Özellikle Şema Terapi yaklaşımını temel alarak, uzun süreli örüntülerin anlaşılması ve değişimi konusunda uzmanlaşmış durumdayım. Bu yaklaşım, kişilik bozuklukları ve kronik psikolojik sorunlar için özellikle etkili sonuçlar vermektedir.',
     'about.cta.title': 'Benimle çalışmaya başlamak ister misiniz?',
     'about.cta.desc': 'İlk adımı atmak bazen zor olabilir, ancak bu yolculukta yanınızda olacağım.',
+    'about.office': 'Ofisimiz',
 
     // Education
     'education.title': 'Eğitim',
@@ -207,6 +208,7 @@ const translations: Translations = {
     'about.approach.desc.2': 'I am particularly specialized in the Schema Therapy approach, focusing on understanding and changing long-term patterns. This approach is especially effective for personality disorders and chronic psychological issues.',
     'about.cta.title': 'Would you like to start working with me?',
     'about.cta.desc': 'Taking the first step can sometimes be difficult, but I will be with you on this journey.',
+    'about.office': 'Our Office',
 
     'education.title': 'Education',
     'education.1.name': 'Istanbul Rumeli University',

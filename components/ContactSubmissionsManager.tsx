@@ -7,8 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Eye, Mail, Phone, MessageSquare, Check, Clock } from 'lucide-react';
+import { Eye, Mail, Phone, MessageSquare, Check, Clock, Trash2 } from 'lucide-react';
 import updateContactStatusAction from '@/actions/contact/updateContactStatus';
+import deleteContactSubmissionAction from '@/actions/contact/deleteContactSubmission';
 
 interface ContactSubmission {
   id: number;
@@ -44,6 +45,26 @@ export function ContactSubmissionsManager({ contacts, onRefresh }: ContactSubmis
       toast({
         variant: 'destructive',
         description: 'Durum güncellenirken hata oluştu.'
+      });
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleDelete = async (contactId: number) => {
+    if (!window.confirm('Bu mesajı silmek istediğinizden emin misiniz?')) return;
+
+    try {
+      setIsUpdating(true);
+      await deleteContactSubmissionAction(contactId);
+      toast({
+        description: 'Mesaj başarıyla silindi!'
+      });
+      onRefresh();
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        description: 'Mesaj silinirken hata oluştu.'
       });
     } finally {
       setIsUpdating(false);
@@ -159,6 +180,15 @@ export function ContactSubmissionsManager({ contacts, onRefresh }: ContactSubmis
                           <Check className="h-4 w-4" />
                         </Button>
                       )}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDelete(contact.id)}
+                        disabled={isUpdating}
+                        className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
