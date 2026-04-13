@@ -48,9 +48,6 @@ export function OfficeSection() {
             <motion.div variants={itemVariants} className="relative aspect-square lg:aspect-[3/4] rounded-2xl overflow-hidden shadow-sm lg:mt-8">
               <Image src={bekleme1} alt="Ofis Bekleme Alanı" fill className="object-cover hover:scale-105 transition-transform duration-700" />
             </motion.div>
-            <motion.div variants={itemVariants} className="relative aspect-square lg:aspect-[3/4] rounded-2xl overflow-hidden shadow-sm">
-              <Image src={oturma2} alt="Ofis Oturma Alanı" fill className="object-cover hover:scale-105 transition-transform duration-700" />
-            </motion.div>
             <motion.div variants={itemVariants} className="relative aspect-square lg:aspect-[3/4] rounded-2xl overflow-hidden shadow-sm lg:mt-8">
               <Image src={bekleme2} alt="Ofis Bekleme Alanı" fill className="object-cover hover:scale-105 transition-transform duration-700" />
             </motion.div>
