@@ -26,7 +26,6 @@ const translations: Translations = {
     'home.hero.subtitle.p4': 'Danışanlarımla çalışmalarımda, güvenli ve yargısız bir terapi ortamı sunarak, onların kişisel gelişim, ruhsal denge ve yaşam kalitelerini artırmayı amaçlıyorum.',
     'home.hero.contact': 'You can contact me from the contact section to get more information about me or to make an appointment.',
     'home.about.title': 'Hakkımda',
-    'home.about.desc': 'Klinik psikoloji alanında uzmanlaşmış, yetişkinlerle bireysel terapi konusunda deneyimli bir psikologum.',
     'home.services.title': 'Hizmetlerim',
     'home.blog.title': 'Son Yazılar',
     'home.blog.readMore': 'Devamını Oku',
@@ -73,7 +72,6 @@ const translations: Translations = {
     'common.address': 'İstasyon, Yarımburgaz Cad. No:31. Kat 11, Daire: 90 Küçükçekmece/İstanbul, 34303',
     // About
     'about.title': 'Hakkımda',
-    'about.desc': 'Klinik psikoloji alanında uzmanlaşmış, yetişkinlerle bireysel terapi konusunda deneyimli bir psikologum.',
     'about.education': 'Eğitim',
     'about.certificates': 'Sertifikalar & (Eğitimler)',
     'about.experience': 'Deneyim',
@@ -127,7 +125,6 @@ const translations: Translations = {
     'faq.cta.subtitle': `Sorularınızı benimle doğrudan iletişime geçerek sorabilirsiniz.`,
 
     // Footer
-    'footer.desc': 'Yetişkinler için şefkatli, samimi ve güven verici bir yaklaşımla psikolojik destek.',
     'footer.links': 'Hızlı Linkler',
     'footer.rights': 'Tüm hakları saklıdır.',
     'footer.dev': 'geliştiren',
@@ -153,7 +150,6 @@ const translations: Translations = {
     'home.hero.cta': 'Book Appointment',
     'home.hero.call': 'Call Now',
     'home.about.title': 'About Me',
-    'home.about.desc': 'I am a psychologist specialised in clinical psychology, experienced in individual therapy with adults.',
     'home.services.title': 'My Services',
     'home.blog.title': 'Latest Posts',
     'home.blog.readMore': 'Read More',
@@ -199,7 +195,6 @@ const translations: Translations = {
 
     // About
     'about.title': 'About Me',
-    'about.desc': 'I am a psychologist specialised in clinical psychology, experienced in individual therapy with adults.',
     'about.education': 'Education',
     'about.certificates': 'Certificates (Education)',
     'about.experience': 'Experience',
@@ -251,8 +246,6 @@ const translations: Translations = {
     'faq.btn': 'All FAQs',
     'faq.cta.title': `Didn't find the answer you were looking for?`,
     'faq.cta.subtitle': `Benimle doğrudan iletişime geçerek sorularınızı sorabilirsiniz.`,
-
-    'footer.desc': 'Psychological support for adults with a caring, friendly and reassuring approach.',
     'footer.links': 'Quick Links',
     'footer.rights': 'All rights reserved.',
     'footer.dev': 'developed by',

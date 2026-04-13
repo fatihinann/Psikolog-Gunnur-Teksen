@@ -23,9 +23,6 @@ export function Footer() {
                 </div>
               </div>
             </Link>
-            <p className="text-stone-500 text-sm leading-relaxed mb-8 font-light">
-              {t('footer.desc')}
-            </p>
             <div className="flex items-center space-x-3">
               <a
                 href="https://www.instagram.com/gunnurteksenn/"

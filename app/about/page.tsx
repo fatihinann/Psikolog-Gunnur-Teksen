@@ -85,10 +85,7 @@ export default function AboutPage() {
               <h1 className="text-5xl md:text-6xl font-serif font-light text-stone-900 dark:text-stone-100 mb-5 tracking-tight">
                 {t('about.title')}
               </h1>
-              <div className="w-16 h-0.5 bg-accent-terracotta mx-auto mb-8 opacity-70" />
-              <p className="text-xl text-stone-500 dark:text-stone-400 font-light leading-relaxed">
-                {t('about.desc')}
-              </p>
+              <div className="w-16 h-0.5 bg-accent-terracotta mx-auto opacity-70" />
             </motion.div>
           </div>
         </section>
@@ -259,33 +256,6 @@ export default function AboutPage() {
                               <li className="text-stone-400 text-sm">—</li>
                             )}
                           </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  {/* Approach - stays static from i18n */}
-                  <motion.div variants={itemVariants}>
-                    <div className="minimalist-card p-8 bg-primary-green dark:bg-dark-forest border-primary-green dark:border-dark-forest">
-                      <div className="flex items-start space-x-5">
-                        <div className="flex-shrink-0 p-3.5 bg-white/10 rounded-2xl md:block hidden">
-                          <Heart className="w-7 h-7 text-accent-terracotta" />
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-6">
-                            <div className="flex-shrink-0 p-1.5 w-fit bg-primary-sage/8 dark:bg-dark-forest/40 rounded-2xl border border-primary-sage/15 dark:border-primary-sage/20 md:hidden block">
-                              <Heart className="w-6 h-6 text-accent-terracotta" />
-                            </div>
-                            <h3 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100">
-                              {t('about.approach')}
-                            </h3>
-                          </div>
-                          <p className=" leading-relaxed mb-3 text-sm font-light italic">
-                            {t('about.approach.desc.1')}
-                          </p>
-                          <p className="leading-relaxed text-sm font-light italic">
-                            {t('about.approach.desc.2')}
-                          </p>
                         </div>
                       </div>
                     </div>

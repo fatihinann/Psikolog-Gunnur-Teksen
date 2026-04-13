@@ -167,7 +167,7 @@ export default function ContactPage() {
                         asChild
                       >
                         <a href="https://wa.me/905016050697" target="_blank">
-                           WhatsApp Mesaj
+                          WhatsApp Mesaj
                         </a>
                       </Button>
                     </div>
